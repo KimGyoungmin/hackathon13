@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hackerton_festival?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
+    
+  sql:
+    init:
+      mode: never # always로 설정하면 시작시 schema.sql 실행
+
+# MyBatis 설정
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.hackerton.domain
+  configuration:
+    map-underscore-to-camel-case: true  # 스네이크_케이스 -> 카멜케이스 자동 변환
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 로그 출력
+
+# 로깅 설정
+logging:
+  level:
+    com.example.hackerton.mapper: DEBUG  # MyBatis SQL 로그 레벨

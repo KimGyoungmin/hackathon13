@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.hackerton.mapper.FestivalMapper">
+
+    <!-- Festival ResultMap -->
+    <resultMap id="FestivalResultMap" type="com.example.hackerton.domain.Festival">
+        <id property="festivalId" column="festival_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="festivalName" column="festival_nm"/>
+    </resultMap>
+
+    <!-- 모든 축제 조회 -->
+    <select id="findAll" resultMap="FestivalResultMap">
+        SELECT 
+            f.festival_id,
+            f.category_id, 
+            f.festival_nm,
+            c.category_nm
+        FROM festival f
+        LEFT JOIN category c ON f.category_id = c.category_id
+        ORDER BY f.festival_id
+    </select>
+
+    <!-- ID로 축제 조회 -->
+    <select id="findById" parameterType="Long" resultMap="FestivalResultMap">
+        SELECT 
+            f.festival_id,
+            f.category_id,
+            f.festival_nm,
+            c.category_nm
+        FROM festival f
+        LEFT JOIN category c ON f.category_id = c.category_id
+        WHERE f.festival_id = #{festivalId}
+    </select>
+
+    <!-- 카테고리별 축제 조회 -->
+    <select id="findByCategoryId" parameterType="Long" resultMap="FestivalResultMap">
+        SELECT 
+            f.festival_id,
+            f.category_id,
+            f.festival_nm,
+            c.category_nm
+        FROM festival f
+        LEFT JOIN category c ON f.category_id = c.category_id
+        WHERE f.category_id = #{categoryId}
+        ORDER BY f.festival_nm
+    </select>
+
+    <!-- 축제 등록 -->
+    <insert id="insert" parameterType="com.example.hackerton.domain.Festival" 
+            useGeneratedKeys="true" keyProperty="festivalId">
+        INSERT INTO festival (category_id, festival_nm)
+        VALUES (#{categoryId}, #{festivalName})
+    </insert>
+
+    <!-- 축제 수정 -->
+    <update id="update" parameterType="com.example.hackerton.domain.Festival">
+        UPDATE festival 
+        SET category_id = #{categoryId},
+            festival_nm = #{festivalName}
+        WHERE festival_id = #{festivalId}
+    </update>
+
+    <!-- 축제 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM festival WHERE festival_id = #{festivalId}
+    </delete>
+
+    <!-- 축제명으로 검색 -->
+    <select id="findByNameContaining" parameterType="String" resultMap="FestivalResultMap">
+        SELECT 
+            f.festival_id,
+            f.category_id,
+            f.festival_nm,
+            c.category_nm
+        FROM festival f
+        LEFT JOIN category c ON f.category_id = c.category_id
+        WHERE f.festival_nm LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY f.festival_nm
+    </select>
+
+</mapper>
