@@ -35,6 +35,23 @@
         WHERE festival_id = #{festivalId}
     </select>
 
+    <!-- 필터링한 축제 상세 정보 조회 -->
+    <select id="findFiltered" parameterType="String" resultMap="FestivalDetailResultMap">
+        SELECT *
+    FROM festival_detail
+    <where>
+        <if test="year != null and year != ''">
+        AND year = #{year}
+        </if>
+        <if test="category != null and category != ''">
+        AND category = #{category}
+        </if>
+        <if test="location != null and location != ''">
+        AND location = #{location}
+        </if>
+    </where>
+    </select>
+
     <!-- 연도별 축제 상세 정보 조회 -->
     <select id="findByYear" parameterType="Integer" resultMap="FestivalDetailResultMap">
         SELECT *

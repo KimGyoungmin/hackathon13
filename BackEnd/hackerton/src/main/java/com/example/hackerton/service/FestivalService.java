@@ -35,7 +35,12 @@ public class FestivalService {
     public List<Festival> getAllFestivals() {
         return festivalMapper.findAll();
     }
-    
+
+    // 필터링된 Festival 조회
+    public List<Festival> getFilteredFestivals(String year, String category, String location) {
+        return festivalMapper.findFiltered(year, category, location);
+    }
+
     public Festival getFestivalById(Long festivalId) {
         return festivalMapper.findById(festivalId);
     }

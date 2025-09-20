@@ -29,12 +29,25 @@ public class FestivalController {
     private FestivalService festivalService;
 
     // Festival 관련 API
+    // 전체 Festival 조회
+    // 메인 대시보드에 전달할 데이터
     @GetMapping("/festivals")
     public ResponseEntity<List<Festival>> getAllFestivals() {
         List<Festival> festivals = festivalService.getAllFestivals();
         return ResponseEntity.ok(festivals);
     }
+    @GetMapping("/api/festivals")
+    public List<Festival> getFestivals(
+        @RequestParam(required = false) String year,
+        @RequestParam(required = false) String category,
+        @RequestParam(required = false) String location
+    ) {
+        return festivalService.getFilteredFestivals(year, category, location);
+    }
     
+    // 특정 Festival 조회
+    // 메인보드에서 축제 하나를 선택하면 해당 축제의 id값을 토대로 조회
+    // api 일단 보류
     @GetMapping("/festivals/{id}")
     public ResponseEntity<Festival> getFestivalById(@PathVariable Long id) {
         Festival festival = festivalService.getFestivalById(id);
@@ -44,6 +57,9 @@ public class FestivalController {
         return ResponseEntity.notFound().build();
     }
     
+
+    // Category별 Festival 조회
+    // 해당 category의 매출 순위
     @GetMapping("/festivals/category/{categoryId}")
     public ResponseEntity<List<Festival>> getFestivalsByCategory(@PathVariable Long categoryId) {
         List<Festival> festivals = festivalService.getFestivalsByCategory(categoryId);

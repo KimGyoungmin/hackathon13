@@ -8,6 +8,7 @@ import com.example.hackerton.domain.Festival;
 @Mapper
 public interface FestivalMapper {
     List<Festival> findAll();
+    List<Festival>findFiltered(String year, String category, String location);
     Festival findById(Long festivalId);
     List<Festival> findByCategoryId(Long categoryId);
     List<Festival> findByNameContaining(String keyword);

@@ -7,12 +7,20 @@ CREATE TABLE category (
     category_nm VARCHAR(100) NOT NULL COMMENT '카테고리명'
 );
 
+-- 지역 테이블
+CREATE TABLE festival_location (
+    location_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    location_nm VARCHAR(100) NOT NULL COMMENT '지역 시/군명'
+);
+
 -- 축제 테이블
 CREATE TABLE festival (
     festival_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     category_id BIGINT NOT NULL COMMENT '카테고리 ID',
+    location_id BIGINT NOT NULL COMMENT '지역 ID',
     festival_nm VARCHAR(200) NOT NULL COMMENT '축제명',
-    FOREIGN KEY (category_id) REFERENCES category(category_id)
+    FOREIGN KEY (category_id) REFERENCES category(category_id),
+    FOREIGN KEY (location_id) REFERENCES festival_location(location_id)
 );
 
 -- 축제 상세 정보 테이블
