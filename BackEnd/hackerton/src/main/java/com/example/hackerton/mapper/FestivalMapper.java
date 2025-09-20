@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import com.example.hackerton.domain.Festival;
+
 @Mapper
 public interface FestivalMapper {
     List<Festival> findAll();
