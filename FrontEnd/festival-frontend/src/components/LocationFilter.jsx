@@ -31,7 +31,7 @@ const LocationFilter = ({
         <option value="">전체 지역</option>
         {locations.map((location) => (
           <option key={location.locationId} value={location.locationId}>
-            {location.locationName}
+            {location.locationNm}
           </option>
         ))}
       </select>

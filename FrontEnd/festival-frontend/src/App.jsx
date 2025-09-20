@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MainPage from './pages/MainPage';
+import SimpleMainPage from './pages/SimpleMainPage';
 import './index.css';
 
 /**
@@ -12,8 +12,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="*" element={<MainPage />} />
+          <Route path="/" element={<SimpleMainPage />} />
+          <Route path="*" element={<SimpleMainPage />} />
         </Routes>
       </div>
     </Router>

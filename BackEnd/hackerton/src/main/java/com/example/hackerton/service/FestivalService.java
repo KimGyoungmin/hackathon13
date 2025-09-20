@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.hackerton.domain.Festival;
-import com.example.hackerton.domain.FestivalLocation;
-import com.example.hackerton.mapper.FestivalLocationMapper;
+import com.example.hackerton.domain.Location;
+import com.example.hackerton.mapper.LocationMapper;
 import com.example.hackerton.mapper.FestivalMapper;
 
 /**
@@ -23,7 +23,7 @@ public class FestivalService {
     private FestivalMapper festivalMapper;
     
     @Autowired
-    private FestivalLocationMapper festivalLocationMapper;
+    private LocationMapper locationMapper;
     
     /**
      * 모든 지역 정보를 조회합니다.
@@ -32,8 +32,8 @@ public class FestivalService {
      * @return 모든 지역 정보 리스트
      */
     @Transactional(readOnly = true)
-    public List<FestivalLocation> getAllLocations() {
-        return festivalLocationMapper.findAllLocations();
+    public List<Location> getAllLocations() {
+        return locationMapper.findAllLocations();
     }
     
     /**

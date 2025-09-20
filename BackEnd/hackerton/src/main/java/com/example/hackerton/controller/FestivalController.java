@@ -3,6 +3,7 @@ package com.example.hackerton.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hackerton.domain.Festival;
-import com.example.hackerton.domain.FestivalLocation;
+import com.example.hackerton.domain.Location;
 import com.example.hackerton.service.FestivalService;
 
 /**
@@ -19,6 +20,7 @@ import com.example.hackerton.service.FestivalService;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5174")
 public class FestivalController {
     
     @Autowired
@@ -31,7 +33,7 @@ public class FestivalController {
      * @return 모든 지역 정보 리스트
      */
     @GetMapping("/locations")
-    public List<FestivalLocation> getAllLocations() {
+    public List<Location> getAllLocations() {
         return festivalService.getAllLocations();
     }
     

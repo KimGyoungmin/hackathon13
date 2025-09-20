@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.hackerton.mapper.FestivalLocationMapper">
+<mapper namespace="com.example.hackerton.mapper.LocationMapper">
     
     <!-- 모든 지역 정보 조회 -->
-    <select id="findAllLocations" resultType="com.example.hackerton.domain.FestivalLocation">
+    <select id="findAllLocations" resultType="com.example.hackerton.domain.Location">
         SELECT 
             location_id as locationId,
-            location_nm as locationName
-        FROM festival_location
+            location_nm as locationNm
+        FROM location
         ORDER BY location_nm
     </select>
     

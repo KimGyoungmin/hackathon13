@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.hackerton.domain.FestivalLocation;
+import com.example.hackerton.domain.Location;
 
 /**
  * 축제 지역 정보를 조회하는 매퍼 인터페이스
  * 시/군 필터링을 위한 데이터 접근을 담당합니다.
  */
 @Mapper
-public interface FestivalLocationMapper {
+public interface LocationMapper {
     
     /**
      * 모든 지역 정보를 조회합니다.
@@ -19,5 +19,5 @@ public interface FestivalLocationMapper {
      * 
      * @return 모든 지역 정보 리스트
      */
-    List<FestivalLocation> findAllLocations();
+    List<Location> findAllLocations();
 }
