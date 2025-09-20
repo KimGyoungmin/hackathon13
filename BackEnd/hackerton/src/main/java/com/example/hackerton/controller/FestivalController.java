@@ -31,11 +31,12 @@ public class FestivalController {
     // Festival 관련 API
     // 전체 Festival 조회
     // 메인 대시보드에 전달할 데이터
-    @GetMapping("/festivals")
-    public ResponseEntity<List<Festival>> getAllFestivals() {
-        List<Festival> festivals = festivalService.getAllFestivals();
-        return ResponseEntity.ok(festivals);
-    }
+    // @GetMapping("/festivals")
+    // public ResponseEntity<List<Festival>> getAllFestivals() {
+    //     List<Festival> festivals = festivalService.getAllFestivals();
+    //     return ResponseEntity.ok(festivals);
+    // }
+
     @GetMapping("/api/festivals")
     public List<Festival> getFestivals(
         @RequestParam(required = false) String year,
@@ -219,4 +220,7 @@ public class FestivalController {
         festivalService.softDeleteFestivalLog(logId);
         return ResponseEntity.noContent().build();
     }
+
+    // 지역 관련 API
+    
 }
