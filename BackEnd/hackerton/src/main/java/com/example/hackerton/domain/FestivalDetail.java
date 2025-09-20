@@ -27,5 +27,6 @@ public class FestivalDetail {
     private Double promoIntensityIndex;      // 홍보강도지수
     private Integer budgetKrw;               // 축제예산
     private Integer year;                    // 개최년도
+    private Integer grossSales;              // 총매출
     
 }

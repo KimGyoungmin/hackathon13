@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.hackerton.mapper.CategoryMapper">
+
+    <!-- Category ResultMap -->
+    <resultMap id="CategoryResultMap" type="com.example.hackerton.domain.Category">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_nm"/>
+    </resultMap>
+
+    <!-- 모든 카테고리 조회 -->
+    <select id="findAll" resultMap="CategoryResultMap">
+        SELECT category_id, category_nm
+        FROM category
+        ORDER BY category_id
+    </select>
+
+    <!-- ID로 카테고리 조회 -->
+    <select id="findById" parameterType="Long" resultMap="CategoryResultMap">
+        SELECT category_id, category_nm
+        FROM category
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <!-- 이름으로 카테고리 조회 -->
+    <select id="findByName" parameterType="String" resultMap="CategoryResultMap">
+        SELECT category_id, category_nm
+        FROM category
+        WHERE category_nm = #{categoryName}
+    </select>
+
+    <!-- 카테고리 등록 -->
+    <insert id="insert" parameterType="com.example.hackerton.domain.Category" 
+            useGeneratedKeys="true" keyProperty="categoryId">
+        INSERT INTO category (category_nm)
+        VALUES (#{categoryName})
+    </insert>
+
+    <!-- 카테고리 수정 -->
+    <update id="update" parameterType="com.example.hackerton.domain.Category">
+        UPDATE category 
+        SET category_nm = #{categoryName}
+        WHERE category_id = #{categoryId}
+    </update>
+
+    <!-- 카테고리 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM category WHERE category_id = #{categoryId}
+    </delete>
+
+</mapper>

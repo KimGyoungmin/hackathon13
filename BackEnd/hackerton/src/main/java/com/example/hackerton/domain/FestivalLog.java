@@ -14,6 +14,8 @@ public class FestivalLog {
     private Long festivalId;
     private Double promoIncrease;            // 홍보상승량
     private Double budgetIncrease;           // 예산상승량
+    private Double promoIncreaseRate;        // 홍보상승량비율
+    private Double budgetIncreaseRate;       // 예산상승량비율
     private String evidenceSummary;          // 판단근거내용
     private Integer forecastRevenue;         // 예측매출
     private Integer forecastVisitors;        // 예측인원

@@ -9,6 +9,8 @@ import com.example.hackerton.domain.Festival;
 public interface FestivalMapper {
     List<Festival> findAll();
     Festival findById(Long festivalId);
+    List<Festival> findByCategoryId(Long categoryId);
+    List<Festival> findByNameContaining(String keyword);
     void insert(Festival festival);
     void update(Festival festival);
     void delete(Long festivalId);
