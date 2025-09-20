@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.hackerton.mapper.FestivalDetailMapper">
+
+    <!-- FestivalDetail ResultMap -->
+    <resultMap id="FestivalDetailResultMap" type="com.example.hackerton.domain.FestivalDetail">
+        <id property="festivalId" column="festival_id"/>
+        <result property="totalVisitors" column="total_visitors"/>
+        <result property="avgDailyVisitors" column="avg_daily_visitors"/>
+        <result property="durationDays" column="duration_days"/>
+        <result property="weekendDays" column="weekend_days"/>
+        <result property="lodgingDays" column="lodging_days"/>
+        <result property="lodgingVisitorRatio" column="lodging_visitor_ratio"/>
+        <result property="avgSpendPerDayKrw" column="avg_spend_per_day_krw"/>
+        <result property="stayDaysWeight" column="stay_days_weight"/>
+        <result property="avgTempC" column="avg_temp_c"/>
+        <result property="totalPrecipMm" column="total_precip_mm"/>
+        <result property="sunshineHours" column="sunshine_hours"/>
+        <result property="trafficCongestionIndex" column="traffic_congestion_index"/>
+        <result property="localPopulation" column="local_population"/>
+        <result property="grdpPerCapitaMkrw" column="grdp_per_capita_mkrw"/>
+        <result property="programCount" column="program_count"/>
+        <result property="promoIntensityIndex" column="promo_intensity_index"/>
+        <result property="budgetKrw" column="budget_krw"/>
+        <result property="year" column="year"/>
+        <result property="grossSales" column="gross_sales"/>
+    </resultMap>
+
+    <!-- 축제 ID로 상세 정보 조회 -->
+    <select id="findByFestivalId" parameterType="Long" resultMap="FestivalDetailResultMap">
+        SELECT *
+        FROM festival_detail
+        WHERE festival_id = #{festivalId}
+    </select>
+
+    <!-- 필터링한 축제 상세 정보 조회 -->
+    <select id="findFiltered" parameterType="String" resultMap="FestivalDetailResultMap">
+        SELECT *
+    FROM festival_detail
+    <where>
+        <if test="year != null and year != ''">
+        AND year = #{year}
+        </if>
+        <if test="category != null and category != ''">
+        AND category = #{category}
+        </if>
+        <if test="location != null and location != ''">
+        AND location = #{location}
+        </if>
+    </where>
+    </select>
+
+    <!-- 연도별 축제 상세 정보 조회 -->
+    <select id="findByYear" parameterType="Integer" resultMap="FestivalDetailResultMap">
+        SELECT *
+        FROM festival_detail
+        WHERE year = #{year}
+        ORDER BY festival_id
+    </select>
+
+    <!-- 모든 축제 상세 정보 조회 -->
+    <select id="findAll" resultMap="FestivalDetailResultMap">
+        SELECT *
+        FROM festival_detail
+        ORDER BY festival_id
+    </select>
+
+    <!-- 축제 상세 정보 등록 -->
+    <insert id="insert" parameterType="com.example.hackerton.domain.FestivalDetail">
+        INSERT INTO festival_detail (
+            festival_id, total_visitors, avg_daily_visitors, duration_days, weekend_days,
+            lodging_days, lodging_visitor_ratio, avg_spend_per_day_krw, stay_days_weight,
+            avg_temp_c, total_precip_mm, sunshine_hours, traffic_congestion_index,
+            local_population, grdp_per_capita_mkrw, program_count, promo_intensity_index,
+            budget_krw, year, gross_sales
+        ) VALUES (
+            #{festivalId}, #{totalVisitors}, #{avgDailyVisitors}, #{durationDays}, #{weekendDays},
+            #{lodgingDays}, #{lodgingVisitorRatio}, #{avgSpendPerDayKrw}, #{stayDaysWeight},
+            #{avgTempC}, #{totalPrecipMm}, #{sunshineHours}, #{trafficCongestionIndex},
+            #{localPopulation}, #{grdpPerCapitaMkrw}, #{programCount}, #{promoIntensityIndex},
+            #{budgetKrw}, #{year}, #{grossSales}
+        )
+    </insert>
+
+    <!-- 축제 상세 정보 수정 -->
+    <update id="update" parameterType="com.example.hackerton.domain.FestivalDetail">
+        UPDATE festival_detail 
+        SET total_visitors = #{totalVisitors},
+            avg_daily_visitors = #{avgDailyVisitors},
+            duration_days = #{durationDays},
+            weekend_days = #{weekendDays},
+            lodging_days = #{lodgingDays},
+            lodging_visitor_ratio = #{lodgingVisitorRatio},
+            avg_spend_per_day_krw = #{avgSpendPerDayKrw},
+            stay_days_weight = #{stayDaysWeight},
+            avg_temp_c = #{avgTempC},
+            total_precip_mm = #{totalPrecipMm},
+            sunshine_hours = #{sunshineHours},
+            traffic_congestion_index = #{trafficCongestionIndex},
+            local_population = #{localPopulation},
+            grdp_per_capita_mkrw = #{grdpPerCapitaMkrw},
+            program_count = #{programCount},
+            promo_intensity_index = #{promoIntensityIndex},
+            budget_krw = #{budgetKrw},
+            year = #{year},
+            gross_sales = #{grossSales}
+        WHERE festival_id = #{festivalId}
+    </update>
+
+    <!-- 축제 상세 정보 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM festival_detail WHERE festival_id = #{festivalId}
+    </delete>
+
+</mapper>
