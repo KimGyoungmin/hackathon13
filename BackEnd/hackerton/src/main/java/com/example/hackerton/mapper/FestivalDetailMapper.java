@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import com.example.hackerton.domain.FestivalDetail;
+
+
 @Mapper
 public interface FestivalDetailMapper {
     FestivalDetail findByFestivalId(Long festivalId);

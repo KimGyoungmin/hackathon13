@@ -31,3 +31,25 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Configuration Files ###
+application.yml
+application.properties
+application-*.yml
+application-*.properties
+
+### Database ###
+*.db
+*.sqlite
+
+### Logs ###
+logs/
+*.log
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### Temporary files ###
+*.tmp
+*.temp
