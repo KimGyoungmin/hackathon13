@@ -72,12 +72,19 @@ INSERT INTO category (category_nm) VALUES
 ('전통'),
 ('국제');
 
-INSERT INTO festival (category_id, festival_nm) VALUES 
-(1, '부산국제영화제'),
-(2, '전주비빔밥축제'),
-(3, '서울마라톤'),
-(4, '안동하회탈춤축제'),
-(5, '서울국제음식축제');
+INSERT INTO festival_location (location_nm) VALUES 
+('서울특별시'),
+('부산광역시'),
+('전주시'),
+('안동시'),
+('목포시');
+
+INSERT INTO festival (category_id, location_id, festival_nm) VALUES 
+(1, 2, '부산국제영화제'),
+(2, 3, '전주비빔밥축제'),
+(3, 1, '서울마라톤'),
+(4, 4, '안동하회탈춤축제'),
+(5, 1, '서울국제음식축제');
 
 INSERT INTO festival_detail (
     festival_id, total_visitors, avg_daily_visitors, duration_days, weekend_days,

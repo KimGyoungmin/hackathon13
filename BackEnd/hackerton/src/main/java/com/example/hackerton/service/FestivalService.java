@@ -6,141 +6,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.hackerton.domain.Category;
 import com.example.hackerton.domain.Festival;
-import com.example.hackerton.domain.FestivalDetail;
-import com.example.hackerton.domain.FestivalLog;
-import com.example.hackerton.mapper.CategoryMapper;
-import com.example.hackerton.mapper.FestivalDetailMapper;
-import com.example.hackerton.mapper.FestivalLogMapper;
+import com.example.hackerton.domain.FestivalLocation;
+import com.example.hackerton.mapper.FestivalLocationMapper;
 import com.example.hackerton.mapper.FestivalMapper;
 
+/**
+ * 축제 관련 비즈니스 로직을 처리하는 서비스 클래스
+ * 필터링 기능을 제공합니다.
+ */
 @Service
 @Transactional
 public class FestivalService {
-
+    
     @Autowired
     private FestivalMapper festivalMapper;
     
     @Autowired
-    private CategoryMapper categoryMapper;
+    private FestivalLocationMapper festivalLocationMapper;
     
-    @Autowired
-    private FestivalDetailMapper festivalDetailMapper;
-    
-    @Autowired
-    private FestivalLogMapper festivalLogMapper;
-
-    // Festival 관련 메서드
-    public List<Festival> getAllFestivals() {
-        return festivalMapper.findAll();
-    }
-
-    // 필터링된 Festival 조회
-    public List<Festival> getFilteredFestivals(String year, String category, String location) {
-        return festivalMapper.findFiltered(year, category, location);
-    }
-
-    public Festival getFestivalById(Long festivalId) {
-        return festivalMapper.findById(festivalId);
+    /**
+     * 모든 지역 정보를 조회합니다.
+     * 메인 페이지에서 시/군 필터링 옵션을 제공하기 위해 사용됩니다.
+     * 
+     * @return 모든 지역 정보 리스트
+     */
+    @Transactional(readOnly = true)
+    public List<FestivalLocation> getAllLocations() {
+        return festivalLocationMapper.findAllLocations();
     }
     
-    public List<Festival> getFestivalsByCategory(Long categoryId) {
-        return festivalMapper.findByCategoryId(categoryId);
+    /**
+     * 특정 지역의 모든 축제를 조회합니다.
+     * 시/군 필터링 후 해당 지역의 축제 목록을 보여주기 위해 사용됩니다.
+     * 
+     * @param locationId 지역 ID
+     * @return 해당 지역의 축제 리스트
+     */
+    @Transactional(readOnly = true)
+    public List<Festival> getFestivalsByLocation(Long locationId) {
+        return festivalMapper.findFestivalsByLocation(locationId);
     }
     
-    public List<Festival> searchFestivalsByName(String keyword) {
-        return festivalMapper.findByNameContaining(keyword);
-    }
-    
-    public void createFestival(Festival festival) {
-        festivalMapper.insert(festival);
-    }
-    
-    public void updateFestival(Festival festival) {
-        festivalMapper.update(festival);
-    }
-    
-    public void deleteFestival(Long festivalId) {
-        festivalMapper.delete(festivalId);
-    }
-    
-    // Category 관련 메서드
-    public List<Category> getAllCategories() {
-        return categoryMapper.findAll();
-    }
-    
-    public Category getCategoryById(Long categoryId) {
-        return categoryMapper.findById(categoryId);
-    }
-    
-    public void createCategory(Category category) {
-        categoryMapper.insert(category);
-    }
-    
-    public void updateCategory(Category category) {
-        categoryMapper.update(category);
-    }
-    
-    public void deleteCategory(Long categoryId) {
-        categoryMapper.delete(categoryId);
-    }
-    
-    // FestivalDetail 관련 메서드
-    public FestivalDetail getFestivalDetail(Long festivalId) {
-        return festivalDetailMapper.findByFestivalId(festivalId);
-    }
-    
-    public List<FestivalDetail> getFestivalDetailsByYear(Integer year) {
-        return festivalDetailMapper.findByYear(year);
-    }
-    
-    public List<FestivalDetail> getAllFestivalDetails() {
-        return festivalDetailMapper.findAll();
-    }
-    
-    public void createFestivalDetail(FestivalDetail festivalDetail) {
-        festivalDetailMapper.insert(festivalDetail);
-    }
-    
-    public void updateFestivalDetail(FestivalDetail festivalDetail) {
-        festivalDetailMapper.update(festivalDetail);
-    }
-    
-    public void deleteFestivalDetail(Long festivalId) {
-        festivalDetailMapper.delete(festivalId);
-    }
-    
-    // FestivalLog 관련 메서드
-    public List<FestivalLog> getAllFestivalLogs() {
-        return festivalLogMapper.findAll();
-    }
-    
-    public FestivalLog getFestivalLogById(Long logId) {
-        return festivalLogMapper.findById(logId);
-    }
-    
-    public List<FestivalLog> getFestivalLogsByFestivalId(Long festivalId) {
-        return festivalLogMapper.findByFestivalId(festivalId);
-    }
-    
-    public List<FestivalLog> getRecentPredictions() {
-        return festivalLogMapper.findRecentPredictions();
-    }
-    
-    public void createFestivalLog(FestivalLog festivalLog) {
-        festivalLogMapper.insert(festivalLog);
-    }
-    
-    public void updateFestivalLog(FestivalLog festivalLog) {
-        festivalLogMapper.update(festivalLog);
-    }
-    
-    public void deleteFestivalLog(Long logId) {
-        festivalLogMapper.delete(logId);
-    }
-    
-    public void softDeleteFestivalLog(Long logId) {
-        festivalLogMapper.softDelete(logId);
+    /**
+     * 특정 지역과 카테고리로 축제를 필터링하여 조회합니다.
+     * 시/군과 축제 카테고리를 동시에 필터링할 때 사용됩니다.
+     * 
+     * @param locationId 지역 ID
+     * @param categoryIds 카테고리 ID 리스트 (다중 선택 가능)
+     * @return 필터링된 축제 리스트
+     */
+    @Transactional(readOnly = true)
+    public List<Festival> getFestivalsByLocationAndCategories(Long locationId, List<Long> categoryIds) {
+        return festivalMapper.findFestivalsByLocationAndCategories(locationId, categoryIds);
     }
 }

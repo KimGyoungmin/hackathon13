@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Festival {
     private Long festivalId;
     private Long categoryId;
+    private Long locationId;
     private String festivalName;
 
 }
