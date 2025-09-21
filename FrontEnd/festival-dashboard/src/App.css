@@ -15,6 +15,14 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 4px var(--shadow);
+  padding: 0 20px;
+}
+
+.header-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .app-header h1 {
@@ -22,6 +30,35 @@
   font-weight: 600;
   color: var(--primary);
   margin: 0;
+}
+
+/* 뷰 모드 버튼 스타일 */
+.view-mode-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.view-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--text);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+  background-color: var(--background);
+  border-color: var(--primary);
+}
+
+.view-btn.active {
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
 }
 
 /* 메인 콘텐츠 영역 */
@@ -66,9 +103,16 @@
 .main-content {
   flex: 1;
   background-color: var(--background);
+  padding: 20px;
+}
+
+/* 오른쪽 사이드바 */
+.right-sidebar {
+  width: 300px;
+  background-color: var(--white);
+  border-left: 1px solid var(--border-color);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 }
 
 .content-placeholder {
@@ -88,25 +132,54 @@
   font-size: 16px;
 }
 
+/* 지도만 보기 레이아웃 */
+.map-only-layout {
+  height: 100%;
+  width: 100%;
+}
+
+/* 차트만 보기 레이아웃 */
+.chart-layout {
+  height: 100%;
+  display: flex;
+}
+
+.chart-main-content {
+  flex: 1;
+  background-color: var(--background);
+  padding: 20px;
+  overflow-y: auto;
+}
+
 /* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .right-sidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .main-layout {
     flex-direction: column;
   }
-  
+
   .sidebar {
     width: 100%;
     height: 200px;
   }
-  
+
+  .main-content {
+    padding: 10px;
+  }
+
   .app-header h1 {
     font-size: 18px;
   }
-  
+
   .content-placeholder h2 {
     font-size: 20px;
   }
-  
+
   .content-placeholder p {
     font-size: 14px;
   }

@@ -1,0 +1,147 @@
+/* ChartOnlyPanel 스타일 */
+.chart-only-panel {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+/* 2x2 그리드 레이아웃 */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  height: 100%;
+}
+
+/* 개별 차트 카드 */
+.chart-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: box-shadow 0.2s ease;
+}
+
+/* 차트 헤더 */
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.chart-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.chart-unit {
+  font-size: 14px;
+  color: var(--gray);
+  font-weight: 500;
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+  flex: 1;
+  position: relative;
+  min-height: 250px;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .chart-grid {
+    gap: 16px;
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+
+  .chart-header h3 {
+    font-size: 16px;
+  }
+
+  .chart-container {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-only-panel {
+    padding: 10px;
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .chart-card {
+    padding: 12px;
+  }
+
+  .chart-header h3 {
+    font-size: 14px;
+  }
+
+  .chart-unit {
+    font-size: 12px;
+  }
+
+  .chart-container {
+    min-height: 180px;
+  }
+}
+
+/* 로딩 상태 */
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--gray);
+  font-size: 14px;
+}
+
+/* 빈 상태 */
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--gray);
+  text-align: center;
+}
+
+.chart-empty h4 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.chart-empty p {
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.4;
+}
