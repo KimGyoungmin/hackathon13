@@ -10,4 +10,11 @@
         <result property="categoryName" column="category_nm"/>
     </resultMap>
 
+    <!-- 모든 카테고리 조회 -->
+    <select id="findAllCategories" resultMap="CategoryResultMap">
+        SELECT category_id, category_nm
+        FROM category
+        ORDER BY category_nm
+    </select>
+
 </mapper>

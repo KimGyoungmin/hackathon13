@@ -1,0 +1,143 @@
+.header {
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-purple) 100%);
+  color: var(--white);
+  box-shadow: 0 2px 8px var(--shadow);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-title h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--white);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.view-mode-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.navigation-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.view-mode-controls .btn,
+.navigation-controls .btn {
+  font-size: 13px;
+  padding: 6px 12px;
+  min-width: 80px;
+}
+
+.view-mode-controls .btn-primary {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+}
+
+.view-mode-controls .btn-primary:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.view-mode-controls .btn-outline {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+}
+
+.view-mode-controls .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navigation-controls .btn-secondary {
+  background-color: var(--white);
+  color: var(--primary-green);
+  border: 1px solid var(--white);
+}
+
+.navigation-controls .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.navigation-controls .btn-outline {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: var(--white);
+}
+
+.navigation-controls .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .header-content {
+    padding: 0 16px;
+  }
+  
+  .header-title h1 {
+    font-size: 18px;
+  }
+  
+  .header-controls {
+    gap: 16px;
+  }
+  
+  .view-mode-controls .btn,
+  .navigation-controls .btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+  }
+  
+  .header-title h1 {
+    font-size: 16px;
+  }
+  
+  .header-controls {
+    gap: 12px;
+  }
+  
+  .view-mode-controls,
+  .navigation-controls {
+    gap: 4px;
+  }
+  
+  .view-mode-controls .btn,
+  .navigation-controls .btn {
+    font-size: 11px;
+    padding: 4px 8px;
+    min-width: 60px;
+  }
+}

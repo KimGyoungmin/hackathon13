@@ -18,9 +18,10 @@ mybatis:
   type-aliases-package: com.example.hackerton.domain
   configuration:
     map-underscore-to-camel-case: true  # 스네이크_케이스 -> 카멜케이스 자동 변환
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 로그 출력
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 로그 출력 (개발시에만 주석 해제)
 
 # 로깅 설정
 logging:
   level:
-    com.example.hackerton.mapper: DEBUG  # MyBatis SQL 로그 레벨
+    com.example.hackerton.mapper: INFO  # MyBatis SQL 로그 레벨 (DEBUG -> INFO로 변경)
+    root: INFO  # 전체 로그 레벨을 INFO로 설정

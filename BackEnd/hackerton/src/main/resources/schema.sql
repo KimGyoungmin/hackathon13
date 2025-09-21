@@ -3,6 +3,13 @@
 
 USE hackerton_festival;
 
+-- 기존 테이블 삭제 (외래키 제약조건 때문에 순서 중요)
+DROP TABLE IF EXISTS festival_log;
+DROP TABLE IF EXISTS festival_detail;
+DROP TABLE IF EXISTS festival;
+DROP TABLE IF EXISTS location;
+DROP TABLE IF EXISTS category;
+
 -- 축제 카테고리 테이블
 CREATE TABLE category (
     category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -31,7 +38,8 @@ CREATE TABLE festival (
 
 -- 축제 상세 정보 테이블
 CREATE TABLE festival_detail (
-    festival_id BIGINT PRIMARY KEY,
+    festival_detail_id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '축제 상세 정보 고유 ID',
+    festival_id BIGINT NOT NULL COMMENT '축제 ID (외래키)',
     total_visitors INT COMMENT '전체 방문자수',
     avg_daily_visitors INT COMMENT '일평균 방문자 수',
     duration_days INT COMMENT '기간일수(축제 기간)',
@@ -51,7 +59,9 @@ CREATE TABLE festival_detail (
     budget_krw BIGINT COMMENT '축제 예산',
     year INT COMMENT '개최연도',
     gross_sales BIGINT COMMENT '총 매출',
-    FOREIGN KEY (festival_id) REFERENCES festival(festival_id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일시',
+    FOREIGN KEY (festival_id) REFERENCES festival(festival_id) ON DELETE CASCADE
 );
 
 -- 축제 예측 로그 테이블
@@ -69,5 +79,7 @@ CREATE TABLE festival_log (
 -- 인덱스 생성 (성능 최적화)
 CREATE INDEX idx_festival_category ON festival(category_id);
 CREATE INDEX idx_festival_location ON festival(location_id);
+CREATE INDEX idx_festival_detail_festival ON festival_detail(festival_id);
 CREATE INDEX idx_festival_detail_year ON festival_detail(year);
-CREATE INDEX idx_festival_log_festival ON festival_log(festival_id);CREATE INDEX idx_location_name ON location(location_nm);
+CREATE INDEX idx_festival_log_festival ON festival_log(festival_id);
+CREATE INDEX idx_location_name ON location(location_nm);

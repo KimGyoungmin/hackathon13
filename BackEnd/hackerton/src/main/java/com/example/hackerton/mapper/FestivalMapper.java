@@ -35,4 +35,19 @@ public interface FestivalMapper {
         @Param("locationId") Long locationId, 
         @Param("categoryIds") List<Long> categoryIds
     );
+    
+    /**
+     * 모든 축제를 조회합니다.
+     * 
+     * @return 모든 축제 리스트
+     */
+    List<Festival> findAllFestivals();
+    
+    /**
+     * 특정 ID의 축제를 조회합니다.
+     * 
+     * @param id 축제 ID
+     * @return 축제 정보
+     */
+    Festival findFestivalById(@Param("id") Long id);
 }

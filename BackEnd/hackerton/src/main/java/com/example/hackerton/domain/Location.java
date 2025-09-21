@@ -14,4 +14,13 @@ import lombok.NoArgsConstructor;
 public class Location {
     private Long locationId;        // 지역 ID
     private String locationNm;      // 지역 시/군명
+    
+    // 프론트엔드에서 사용할 필드들
+    public Long getId() {
+        return locationId;
+    }
+    
+    public String getName() {
+        return locationNm;
+    }
 }
