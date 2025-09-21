@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FestivalLocation {
+public class Location {
     private Long locationId;        // 지역 ID
-    private String locationName;    // 지역 시/군명
+    private String locationNm;      // 지역 시/군명
 }

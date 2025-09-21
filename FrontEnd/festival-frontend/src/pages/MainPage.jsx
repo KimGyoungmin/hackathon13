@@ -113,29 +113,58 @@ const MainPage = () => {
   };
 
   // 선택된 지역명 가져오기
-  const selectedLocationName = locations.find(loc => loc.locationId === selectedLocationId)?.locationName || '';
+  const selectedLocationName = locations.find(loc => loc.locationId === selectedLocationId)?.locationNm || '';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'}}>
       {/* 헤더 */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            축제 관리 시스템
-          </h1>
-          <p className="mt-2 text-gray-600">
-            지역과 카테고리로 축제를 필터링하여 검색하세요.
-          </p>
+      <header className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-full mb-6">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h1 className="text-5xl font-bold text-white mb-4">
+              전라남도 축제 대시보드
+            </h1>
+            <p className="text-xl text-white text-opacity-90 max-w-2xl mx-auto">
+              14개 시군의 다양한 축제를 한눈에 탐색하고, 지역별·카테고리별로 필터링해보세요
+            </p>
+            <div className="mt-8 flex justify-center space-x-6 text-white text-opacity-80">
+              <div className="text-center">
+                <div className="text-3xl font-bold">520</div>
+                <div className="text-sm">축제 데이터</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold">14</div>
+                <div className="text-sm">시군</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold">5</div>
+                <div className="text-sm">카테고리</div>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* 메인 컨텐츠 */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 -mt-8">
         {/* 필터 섹션 */}
-        <div className="card mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">필터 설정</h2>
+        <div className="card mb-8" style={{background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)'}}>
+          <div style={{display: 'flex', alignItems: 'center', marginBottom: '1.5rem'}}>
+            <div style={{width: '2rem', height: '2rem', background: 'linear-gradient(to right, #3b82f6, #9333ea)', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '0.75rem'}}>
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900">필터 설정</h2>
+          </div>
           
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-2">
             <LocationFilter
               locations={locations}
               selectedLocationId={selectedLocationId}
@@ -175,11 +204,13 @@ const MainPage = () => {
         </div>
 
         {/* 축제 목록 섹션 */}
-        <FestivalList
-          festivals={festivals}
-          loading={loading}
-          selectedLocationName={selectedLocationName}
-        />
+        <div className="card" style={{background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)'}}>
+          <FestivalList
+            festivals={festivals}
+            loading={loading}
+            selectedLocationName={selectedLocationName}
+          />
+        </div>
       </main>
     </div>
   );

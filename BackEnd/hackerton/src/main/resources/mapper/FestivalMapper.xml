@@ -9,19 +9,22 @@
         <id property="festivalId" column="festival_id"/>
         <result property="categoryId" column="category_id"/>
         <result property="locationId" column="location_id"/>
-        <result property="festivalName" column="festival_nm"/>
+        <result property="festivalNm" column="festival_nm"/>
+        <result property="year" column="year"/>
     </resultMap>
 
     <!-- 특정 지역의 모든 축제 조회 -->
     <select id="findFestivalsByLocation" resultMap="FestivalResultMap">
         SELECT 
-            festival_id,
-            category_id,
-            location_id,
-            festival_nm
-        FROM festival
-        WHERE location_id = #{locationId}
-        ORDER BY festival_nm
+            f.festival_id,
+            f.category_id,
+            f.location_id,
+            f.festival_nm,
+            fd.year
+        FROM festival f
+        LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
+        WHERE f.location_id = #{locationId}
+        ORDER BY f.festival_nm, fd.year
     </select>
     
     <!-- 특정 지역과 카테고리로 축제 필터링 조회 -->
@@ -30,8 +33,10 @@
             f.festival_id,
             f.category_id,
             f.location_id,
-            f.festival_nm
+            f.festival_nm,
+            fd.year
         FROM festival f
+        LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
         WHERE f.location_id = #{locationId}
         <if test="categoryIds != null and categoryIds.size() > 0">
             AND f.category_id IN
@@ -39,7 +44,7 @@
                 #{categoryId}
             </foreach>
         </if>
-        ORDER BY f.festival_nm
+        ORDER BY f.festival_nm, fd.year
     </select>
 
 </mapper>
