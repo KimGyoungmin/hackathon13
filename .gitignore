@@ -1,27 +1,7 @@
-# 데이터 폴더 (CSV, SQL 파일 등)
+# 데이터 폴더 (CSV, SQL 파일 등) - 프로젝트 공통
 data/
 
-# 백엔드 - Java/Spring Boot
-BackEnd/hackerton/target/
-BackEnd/hackerton/.mvn/wrapper/maven-wrapper.jar
-BackEnd/hackerton/mvnw
-BackEnd/hackerton/mvnw.cmd
-BackEnd/hackerton/.DS_Store
-
-# 프론트엔드 - Node.js/React
-FrontEnd/festival-frontend/node_modules/
-FrontEnd/festival-frontend/dist/
-FrontEnd/festival-frontend/.DS_Store
-FrontEnd/festival-frontend/build/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
+# OS 공통 파일
 .DS_Store
 .DS_Store?
 ._*
@@ -30,17 +10,9 @@ FrontEnd/festival-frontend/build/
 ehthumbs.db
 Thumbs.db
 
-# 로그 파일
-*.log
-logs/
-
-# 환경 변수
+# 환경 변수 (프로젝트 공통)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# 임시 파일
-*.tmp
-*.temp

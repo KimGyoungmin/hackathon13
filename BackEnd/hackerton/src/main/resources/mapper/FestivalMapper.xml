@@ -46,5 +46,32 @@
         </if>
         ORDER BY f.festival_nm, fd.year
     </select>
+    
+    <!-- 모든 축제 조회 -->
+    <select id="findAllFestivals" resultMap="FestivalResultMap">
+        SELECT 
+            f.festival_id,
+            f.category_id,
+            f.location_id,
+            f.festival_nm,
+            fd.year
+        FROM festival f
+        LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
+        ORDER BY f.festival_nm, fd.year
+    </select>
+    
+    <!-- 특정 ID의 축제 조회 -->
+    <select id="findFestivalById" resultMap="FestivalResultMap">
+        SELECT 
+            f.festival_id,
+            f.category_id,
+            f.location_id,
+            f.festival_nm,
+            fd.year
+        FROM festival f
+        LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
+        WHERE f.festival_id = #{id}
+        LIMIT 1
+    </select>
 
 </mapper>

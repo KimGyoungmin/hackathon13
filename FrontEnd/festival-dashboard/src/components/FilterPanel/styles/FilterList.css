@@ -1,0 +1,274 @@
+/* FilterList 컴포넌트 스타일 */
+.filter-list {
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--white);
+}
+
+.filter-list__content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.filter-list__empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--gray);
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.filter-item:hover {
+  background-color: var(--light-gray);
+}
+
+.filter-item--selected {
+  background-color: rgba(45, 80, 22, 0.05);
+  border-left: 3px solid var(--primary);
+}
+
+.filter-item--selected:hover {
+  background-color: rgba(45, 80, 22, 0.1);
+}
+
+.filter-item__checkbox {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.filter-item__checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary);
+  border-radius: 3px;
+  border: 2px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.filter-item__checkbox input[type="checkbox"]:hover {
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+.filter-item__checkbox input[type="checkbox"]:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.filter-item__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-item__content--clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-item__content--clickable:hover {
+  background-color: rgba(45, 80, 22, 0.05);
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.filter-item__name {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.filter-item--selected .filter-item__name {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.filter-item__count {
+  font-size: 12px;
+  color: var(--gray);
+  background-color: var(--light-gray);
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.filter-item--selected .filter-item__count {
+  background-color: rgba(45, 80, 22, 0.1);
+  color: var(--primary);
+}
+
+/* 펼침/접힘 아이콘 스타일 */
+.filter-item__expand-icon {
+  margin-left: auto;
+  color: var(--gray);
+  font-size: 12px;
+  transition: all 0.2s ease;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.filter-item__content--clickable:hover .filter-item__expand-icon {
+  color: var(--primary);
+  background-color: rgba(45, 80, 22, 0.1);
+}
+
+/* 스크롤바 스타일링 */
+.filter-list__content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.filter-list__content::-webkit-scrollbar-track {
+  background: var(--light-gray);
+}
+
+.filter-list__content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+.filter-list__content::-webkit-scrollbar-thumb:hover {
+  background: var(--gray);
+}
+
+/* 계층적 구조 스타일 */
+.filter-item-container {
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* 토글 버튼 스타일 제거됨 - 지역명 클릭으로 대체 */
+
+/* 하위 축제 목록 스타일 */
+.filter-item__festivals {
+  background-color: rgba(45, 80, 22, 0.02);
+  border-left: 3px solid var(--primary);
+  margin-left: 20px;
+}
+
+.filter-festival {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px 8px 40px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(45, 80, 22, 0.05);
+  font-size: 13px;
+}
+
+.filter-festival:hover {
+  background-color: rgba(45, 80, 22, 0.05);
+}
+
+.filter-festival--selected {
+  background-color: rgba(45, 80, 22, 0.08);
+  border-left: 2px solid var(--secondary);
+}
+
+.filter-festival--selected:hover {
+  background-color: rgba(45, 80, 22, 0.12);
+}
+
+.filter-festival__checkbox {
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.filter-festival__checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: var(--secondary);
+}
+
+.filter-festival__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-festival__name {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.filter-festival--selected .filter-festival__name {
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+.filter-festival__year {
+  font-size: 11px;
+  color: var(--gray);
+  background-color: var(--light-gray);
+  padding: 1px 4px;
+  border-radius: 8px;
+  font-weight: 400;
+}
+
+.filter-festival--selected .filter-festival__year {
+  background-color: rgba(74, 124, 89, 0.1);
+  color: var(--secondary);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .filter-item {
+    padding: 10px 16px;
+  }
+  
+  .filter-item__checkbox {
+    margin-right: 10px;
+  }
+  
+  .filter-item__checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .filter-item__name {
+    font-size: 13px;
+  }
+  
+  .filter-item__count {
+    font-size: 11px;
+    padding: 1px 4px;
+  }
+
+  .filter-item__festivals {
+    margin-left: 16px;
+  }
+
+  .filter-festival {
+    padding: 6px 16px 6px 32px;
+    font-size: 12px;
+  }
+
+  .filter-festival__checkbox input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+  }
+
+  .filter-festival__year {
+    font-size: 10px;
+    padding: 1px 3px;
+  }
+}

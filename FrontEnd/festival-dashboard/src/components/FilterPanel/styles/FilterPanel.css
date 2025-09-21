@@ -1,0 +1,34 @@
+/* FilterPanel 메인 컴포넌트 스타일 */
+.filter-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+  overflow: hidden;
+}
+
+/* 로딩 및 에러 상태 스타일 */
+.loading, .error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--background);
+  border-radius: 8px;
+  border: 2px dashed var(--border);
+  margin: 20px;
+}
+
+.error {
+  color: var(--error);
+  border-color: var(--error);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .filter-panel {
+    height: 200px;
+  }
+}

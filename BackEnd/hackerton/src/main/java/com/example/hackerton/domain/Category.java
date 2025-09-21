@@ -10,4 +10,13 @@ import lombok.NoArgsConstructor;
 public class Category {
     private Long categoryId;
     private String categoryName;
+    
+    // 프론트엔드에서 사용할 필드들
+    public Long getId() {
+        return categoryId;
+    }
+    
+    public String getName() {
+        return categoryName;
+    }
 }

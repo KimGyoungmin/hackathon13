@@ -1,0 +1,72 @@
+/* FilterActions 컴포넌트 스타일 */
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--white);
+}
+
+.filter-action-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--white);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.filter-action-btn:hover {
+  background-color: var(--light-gray);
+  border-color: var(--gray);
+}
+
+.filter-action-btn--outline {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-action-btn--outline:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.filter-action-btn--secondary {
+  background-color: var(--secondary);
+  color: var(--white);
+  border-color: var(--secondary);
+}
+
+.filter-action-btn--secondary:hover {
+  background-color: #3a5c47;
+  border-color: #3a5c47;
+}
+
+.filter-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.filter-action-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .filter-actions {
+    padding: 12px 16px;
+    gap: 6px;
+  }
+  
+  .filter-action-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
