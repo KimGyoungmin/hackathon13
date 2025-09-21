@@ -9,10 +9,26 @@
     <!-- 카카오맵 API 스크립트 -->
     <script src="config.js"></script>
     <script>
-        console.log(CONFIG.KAKAO_MAP_KEY);
-    </script>
-    <script>
-        document.write('<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=' + CONFIG.KAKAO_MAP_KEY + '"><\/script>');
+        console.log('카카오맵 API 키:', CONFIG.KAKAO_MAP_KEY);
+
+        // 카카오맵 SDK 로드
+        (function() {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = '//dapi.kakao.com/v2/maps/sdk.js?appkey=' + CONFIG.KAKAO_MAP_KEY + '&autoload=false';
+            script.onload = function() {
+                console.log('카카오맵 SDK 스크립트 로드 완료');
+                // 카카오맵 API 초기화
+                window.kakao.maps.load(function() {
+                    console.log('카카오맵 API 초기화 완료');
+                    window.kakaoMapLoaded = true;
+                });
+            };
+            script.onerror = function() {
+                console.error('카카오맵 SDK 로드 실패');
+            };
+            document.head.appendChild(script);
+        })();
     </script>
   </head>
   <body>

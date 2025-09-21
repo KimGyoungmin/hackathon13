@@ -23,56 +23,77 @@ const KakaoMap = ({
   const mapInstanceRef = useRef(null);
 
   useEffect(() => {
-    // 카카오맵 API가 로드되었는지 확인
-    if (!window.kakao || !window.kakao.maps) {
-      console.error('카카오맵 API가 로드되지 않았습니다.');
-      return;
-    }
+    // 카카오맵 API 로딩을 기다리는 함수
+    const initializeMap = () => {
+      // 카카오맵 API가 로드되고 초기화되었는지 확인
+      if (!window.kakao || !window.kakao.maps || !window.kakaoMapLoaded) {
+        console.log('카카오맵 API 초기화 대기 중...');
+        // 200ms 후 다시 시도
+        setTimeout(initializeMap, 200);
+        return;
+      }
 
-    // 지도 컨테이너가 준비되었는지 확인
-    if (!mapRef.current) {
-      console.error('지도 컨테이너가 준비되지 않았습니다.');
-      return;
-    }
+      // 카카오맵 API 완전 초기화 확인
+      if (!window.kakao.maps.LatLng || typeof window.kakao.maps.LatLng !== 'function') {
+        console.log('카카오맵 API 객체 초기화 대기 중...');
+        setTimeout(initializeMap, 200);
+        return;
+      }
 
-    // 기존 지도 인스턴스가 있다면 제거
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current = null;
-    }
+      // 지도 컨테이너가 준비되었는지 확인
+      if (!mapRef.current) {
+        console.error('지도 컨테이너가 준비되지 않았습니다.');
+        return;
+      }
 
-    // 지도 옵션 설정
-    const mapOption = {
-      center: new window.kakao.maps.LatLng(center.lat, center.lng),
-      level: level
+      // 기존 지도 인스턴스가 있다면 제거
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current = null;
+      }
+
+      try {
+        // 지도 옵션 설정
+        const mapOption = {
+          center: new window.kakao.maps.LatLng(center.lat, center.lng),
+          level: level
+        };
+
+        // 지도 생성
+        const map = new window.kakao.maps.Map(mapRef.current, mapOption);
+        mapInstanceRef.current = map;
+
+        // 지도 컨트롤 추가
+        const mapTypeControl = new window.kakao.maps.MapTypeControl();
+        map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+
+        const zoomControl = new window.kakao.maps.ZoomControl();
+        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
+        // 지도가 준비되었음을 부모 컴포넌트에 알림
+        if (onMapReady) {
+          onMapReady(map);
+        }
+
+        // 지도 클릭 이벤트 (선택사항)
+        window.kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
+          const latlng = mouseEvent.latLng;
+          console.log('지도 클릭 위치:', latlng.getLat(), latlng.getLng());
+        });
+
+        // 지도 드래그 이벤트 (선택사항)
+        window.kakao.maps.event.addListener(map, 'dragend', () => {
+          const center = map.getCenter();
+          console.log('지도 중심 변경:', center.getLat(), center.getLng());
+        });
+
+        console.log('카카오맵 초기화 완료');
+      } catch (error) {
+        console.error('카카오맵 초기화 실패:', error);
+      }
     };
 
-    // 지도 생성
-    const map = new window.kakao.maps.Map(mapRef.current, mapOption);
-    mapInstanceRef.current = map;
-
-    // 지도 컨트롤 추가
-    const mapTypeControl = new window.kakao.maps.MapTypeControl();
-    map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
-
-    const zoomControl = new window.kakao.maps.ZoomControl();
-    map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
-
-    // 지도가 준비되었음을 부모 컴포넌트에 알림
-    if (onMapReady) {
-      onMapReady(map);
-    }
-
-    // 지도 클릭 이벤트 (선택사항)
-    window.kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
-      const latlng = mouseEvent.latLng;
-      console.log('지도 클릭 위치:', latlng.getLat(), latlng.getLng());
-    });
-
-    // 지도 드래그 이벤트 (선택사항)
-    window.kakao.maps.event.addListener(map, 'dragend', () => {
-      const center = map.getCenter();
-      console.log('지도 중심 변경:', center.getLat(), center.getLng());
-    });
+    // 지도 초기화 시작
+    initializeMap();
 
     // 컴포넌트 언마운트 시 정리
     return () => {
