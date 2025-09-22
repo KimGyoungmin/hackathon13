@@ -86,7 +86,9 @@ const MapPanel = ({
 
     // 지역별로 마커 생성
     Object.entries(festivalsByLocation).forEach(([locationId, festivals]) => {
+      console.log('마커 생성 - locationId:', locationId, 'festivals:', festivals);
       const coordinates = getLocationCoordinates(parseInt(locationId));
+      console.log('좌표 정보:', coordinates);
 
       if (coordinates) {
         const marker = new window.kakao.maps.Marker({

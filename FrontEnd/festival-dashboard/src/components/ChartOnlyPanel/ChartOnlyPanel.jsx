@@ -192,11 +192,62 @@ const ChartOnlyPanel = ({ selectedFestivals, selectedYears, allFestivals }) => {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: true,
-            position: 'top'
+            display: false, // 범례 숨김으로 차트 공간 확보
+          },
+          tooltip: {
+            enabled: true,
+            mode: 'nearest', // 가장 가까운 데이터 포인트만 표시
+            intersect: true, // 정확히 교차하는 지점에서만 표시
+            backgroundColor: 'rgba(255, 255, 255, 0.95)', // 투명한 하얀색 배경
+            titleColor: '#333333', // 검은색 제목
+            bodyColor: '#333333', // 검은색 본문
+            borderColor: 'rgba(45, 80, 22, 0.3)', // 연한 테두리
+            borderWidth: 1,
+            cornerRadius: 8,
+            displayColors: true,
+            titleFont: {
+              size: 14,
+              weight: 'bold',
+            },
+            bodyFont: {
+              size: 13,
+            },
+            padding: 12,
+            callbacks: {
+              title: function(context) {
+                return context[0].label;
+              },
+              label: function(context) {
+                const dataset = context.dataset;
+                const value = context.parsed.y;
+                let unit = '';
+                
+                // 단위 설정
+                if (canvasId === 'revenue' || canvasId === 'budget') {
+                  unit = '백만원';
+                } else if (canvasId === 'promotion') {
+                  unit = '점';
+                } else if (canvasId === 'lodging') {
+                  unit = '%';
+                }
+                
+                return `${dataset.label}: ${value.toLocaleString()}${unit}`;
+              }
+            }
           }
         },
         scales: {
+          x: {
+            ticks: {
+              display: false, // ChartOnlyPanel에서는 항상 축제명이 X축이므로 숨김
+            },
+            grid: {
+              display: false,
+            },
+            title: {
+              display: false, // X축 제목도 숨김
+            }
+          },
           y: {
             beginAtZero: true,
             ticks: {

@@ -148,17 +148,10 @@ const StatsPanel = ({
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    aspectRatio: 1.8, // 차트의 가로:세로 비율 (1.8:1) - 더 세로로 넓게
+    aspectRatio: 2.5, // 차트의 가로:세로 비율을 더 넓게
     plugins: {
       legend: {
-        position: 'bottom',
-        labels: {
-          usePointStyle: true,
-          padding: 10,
-          font: {
-            size: 13,
-          },
-        },
+        display: false, // 범례 완전히 숨김
       },
       title: {
         display: true,
@@ -168,17 +161,51 @@ const StatsPanel = ({
           weight: 'bold',
         },
         padding: {
-          top: 5,
-          bottom: 10,
+          top: 2,
+          bottom: 2, // 패딩 최소화
         },
+      },
+      tooltip: {
+        enabled: true,
+        mode: 'nearest', // 가장 가까운 데이터 포인트만 표시
+        intersect: true, // 정확히 교차하는 지점에서만 표시
+        backgroundColor: 'rgba(255, 255, 255, 0.95)', // 투명한 하얀색 배경
+        titleColor: '#333333', // 검은색 제목
+        bodyColor: '#333333', // 검은색 본문
+        borderColor: 'rgba(45, 80, 22, 0.3)', // 연한 테두리
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        titleFont: {
+          size: 14,
+          weight: 'bold',
+        },
+        bodyFont: {
+          size: 13,
+        },
+        padding: 12,
+        callbacks: {
+          title: function(context) {
+            if (chartType === 'bar') {
+              return context[0].label; // 축제명
+            } else {
+              return `${context[0].label}년`; // 년도
+            }
+          },
+          label: function(context) {
+            const dataset = context.dataset;
+            const value = context.parsed.y;
+            return `${dataset.label}: ${value.toLocaleString()}명`;
+          }
+        }
       },
     },
     layout: {
       padding: {
-        top: 5,
-        bottom: 5,
-        left: 5,
-        right: 5,
+        top: 2,
+        bottom: 2,
+        left: 2,
+        right: 2,
       },
     },
     scales: {
@@ -204,27 +231,28 @@ const StatsPanel = ({
             size: 13,
             weight: 'bold',
           },
-          padding: 10,
+          padding: 5,
         },
       },
       x: {
         ticks: {
+          display: false, // 모든 차트에서 X축 라벨 숨김
           font: {
-            size: 12,
+            size: 11,
           },
-          padding: 8,
+          padding: 6,
         },
         grid: {
           display: false,
         },
         title: {
-          display: true,
-          text: chartType === 'bar' ? '축제명' : '년도',
+          display: false, // 모든 차트에서 X축 제목 숨김
+          text: '년도',
           font: {
-            size: 13,
+            size: 12,
             weight: 'bold',
           },
-          padding: 10,
+          padding: 4,
         },
       },
     },
