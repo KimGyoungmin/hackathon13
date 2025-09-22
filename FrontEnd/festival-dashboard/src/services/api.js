@@ -127,4 +127,86 @@
   // 싱글톤 인스턴스 생성
   const apiService = new ApiService();
 
+  // 입력 페이지를 위한 특화된 API 함수들
+  export const inputPageAPI = {
+    /**
+     * 모든 고유 축제 목록을 조회
+     * @returns {Promise<Array>} 축제 목록
+     */
+    async getAllUniqueFestivals() {
+      try {
+        const response = await apiService.get('/festivals/unique');
+        return response.data || [];
+      } catch (error) {
+        console.error('축제 목록 조회 실패:', error);
+        return [];
+      }
+    },
+
+    /**
+     * 특정 축제의 연도별 상세 데이터를 조회
+     * @param {string} festivalName 축제명
+     * @param {number} year 연도
+     * @returns {Promise<Object>} 축제 상세 데이터
+     */
+    async getFestivalDetailByNameAndYear(festivalName, year) {
+      try {
+        const response = await apiService.get('/festivals/details', {
+          festivalNames: [festivalName],
+          years: [year]
+        });
+
+        if (response && response.length > 0) {
+          return response[0]; // 첫 번째 결과 반환
+        }
+        return null;
+      } catch (error) {
+        console.error('축제 상세 데이터 조회 실패:', error);
+        return null;
+      }
+    },
+
+    /**
+     * 특정 축제의 사용 가능한 연도 목록을 조회
+     * @param {string} festivalName 축제명
+     * @returns {Promise<Array>} 연도 목록
+     */
+    async getAvailableYearsForFestival(festivalName) {
+      try {
+        const response = await apiService.get('/festivals/details', {
+          festivalNames: [festivalName]
+        });
+
+        if (response && response.length > 0) {
+          // 중복 제거하고 연도만 추출
+          const years = [...new Set(response.map(item => item.year))];
+          return years.sort((a, b) => b - a); // 내림차순 정렬
+        }
+        return [];
+      } catch (error) {
+        console.error('축제 연도 목록 조회 실패:', error);
+        return [];
+      }
+    },
+
+    /**
+     * 축제별 년도별 통계 데이터를 조회
+     * @param {Array<string>} festivalNames 축제명 리스트
+     * @param {Array<number>} years 년도 리스트
+     * @returns {Promise<Object>} 통계 데이터
+     */
+    async getFestivalStatistics(festivalNames, years) {
+      try {
+        const response = await apiService.get('/festivals/statistics', {
+          festivalNames,
+          years
+        });
+        return response || {};
+      } catch (error) {
+        console.error('축제 통계 데이터 조회 실패:', error);
+        return {};
+      }
+    }
+  };
+
   export default apiService;

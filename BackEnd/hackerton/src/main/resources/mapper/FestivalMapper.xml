@@ -74,4 +74,60 @@
         LIMIT 1
     </select>
 
+    <!-- 축제별 년도별 통계 데이터 조회 -->
+    <select id="getFestivalStatistics" resultType="com.example.hackerton.domain.FestivalStatistics">
+        SELECT
+            COALESCE(SUM(fd.total_visitors), 0) as totalVisitors,
+            COALESCE(AVG(fd.total_visitors), 0) as avgVisitors,
+            COALESCE(SUM(fd.gross_sales), 0) as totalSales,
+            COALESCE(AVG(fd.gross_sales), 0) as avgSales,
+            COUNT(DISTINCT f.festival_id) as festivalCount,
+            COUNT(DISTINCT fd.year) as yearCount
+        FROM festival f
+        LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
+        WHERE 1=1
+        <if test="festivalNames != null and festivalNames.size() > 0">
+            AND f.festival_nm IN
+            <foreach collection="festivalNames" item="festivalName" open="(" separator="," close=")">
+                #{festivalName}
+            </foreach>
+        </if>
+        <if test="years != null and years.size() > 0">
+            AND fd.year IN
+            <foreach collection="years" item="year" open="(" separator="," close=")">
+                #{year}
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 축제별 년도별 상세 데이터 조회 -->
+    <select id="getFestivalDetails" resultType="com.example.hackerton.domain.FestivalDetail">
+        SELECT
+            f.festival_id as festivalId,
+            f.festival_nm as festivalName,
+            fd.total_visitors as totalVisitors,
+            fd.avg_daily_visitors as avgDailyVisitors,
+            fd.budget_krw as budgetKrw,
+            fd.year as year,
+            fd.gross_sales as grossSales,
+            fd.promo_intensity_index as promoIntensityIndex,
+            fd.lodging_visitor_ratio as lodgingVisitorRatio
+        FROM festival f
+        LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
+        WHERE 1=1
+        <if test="festivalNames != null and festivalNames.size() > 0">
+            AND f.festival_nm IN
+            <foreach collection="festivalNames" item="festivalName" open="(" separator="," close=")">
+                #{festivalName}
+            </foreach>
+        </if>
+        <if test="years != null and years.size() > 0">
+            AND fd.year IN
+            <foreach collection="years" item="year" open="(" separator="," close=")">
+                #{year}
+            </foreach>
+        </if>
+        ORDER BY f.festival_nm, fd.year
+    </select>
+
 </mapper>

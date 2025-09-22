@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hackerton.domain.Festival;
+import com.example.hackerton.domain.FestivalDetail;
+import com.example.hackerton.domain.FestivalStatistics;
 import com.example.hackerton.domain.Location;
 import com.example.hackerton.domain.Category;
 import com.example.hackerton.service.FestivalService;
@@ -175,5 +176,37 @@ public class FestivalController {
         response.put("data", data);
         
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 축제별 년도별 통계 데이터를 조회하는 API
+     *
+     * @param festivalNames 축제명 리스트 (쉼표로 구분)
+     * @param years 년도 리스트 (쉼표로 구분)
+     * @return 통계 데이터
+     */
+    @GetMapping("/festivals/statistics")
+    public ResponseEntity<FestivalStatistics> getFestivalStatistics(
+            @RequestParam(required = false) List<String> festivalNames,
+            @RequestParam(required = false) List<Integer> years) {
+
+        FestivalStatistics statistics = festivalService.getFestivalStatistics(festivalNames, years);
+        return ResponseEntity.ok(statistics);
+    }
+
+    /**
+     * 축제별 년도별 상세 데이터를 조회하는 API
+     *
+     * @param festivalNames 축제명 리스트 (쉼표로 구분)
+     * @param years 년도 리스트 (쉼표로 구분)
+     * @return 상세 데이터 리스트
+     */
+    @GetMapping("/festivals/details")
+    public ResponseEntity<List<FestivalDetail>> getFestivalDetails(
+            @RequestParam(required = false) List<String> festivalNames,
+            @RequestParam(required = false) List<Integer> years) {
+
+        List<FestivalDetail> details = festivalService.getFestivalDetails(festivalNames, years);
+        return ResponseEntity.ok(details);
     }
 }

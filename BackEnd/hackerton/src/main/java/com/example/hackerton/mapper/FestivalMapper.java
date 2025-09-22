@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.hackerton.domain.Festival;
+import com.example.hackerton.domain.FestivalDetail;
+import com.example.hackerton.domain.FestivalStatistics;
 
 /**
  * 축제 정보를 조회하는 매퍼 인터페이스
@@ -45,9 +47,33 @@ public interface FestivalMapper {
     
     /**
      * 특정 ID의 축제를 조회합니다.
-     * 
+     *
      * @param id 축제 ID
      * @return 축제 정보
      */
     Festival findFestivalById(@Param("id") Long id);
+
+    /**
+     * 축제별 년도별 통계 데이터를 조회합니다.
+     *
+     * @param festivalNames 축제명 리스트
+     * @param years 년도 리스트
+     * @return 통계 데이터
+     */
+    FestivalStatistics getFestivalStatistics(
+        @Param("festivalNames") List<String> festivalNames,
+        @Param("years") List<Integer> years
+    );
+
+    /**
+     * 축제별 년도별 상세 데이터를 조회합니다.
+     *
+     * @param festivalNames 축제명 리스트
+     * @param years 년도 리스트
+     * @return 상세 데이터 리스트
+     */
+    List<FestivalDetail> getFestivalDetails(
+        @Param("festivalNames") List<String> festivalNames,
+        @Param("years") List<Integer> years
+    );
 }

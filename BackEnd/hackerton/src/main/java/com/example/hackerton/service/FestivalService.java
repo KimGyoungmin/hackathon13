@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.hackerton.domain.Festival;
+import com.example.hackerton.domain.FestivalDetail;
+import com.example.hackerton.domain.FestivalStatistics;
 import com.example.hackerton.domain.Location;
 import com.example.hackerton.domain.Category;
 import com.example.hackerton.mapper.LocationMapper;
@@ -242,5 +244,27 @@ public class FestivalService {
         
         result.put("yearlyData", yearlyData);
         return result;
+    }
+
+    /**
+     * 축제별 년도별 통계 데이터를 조회합니다.
+     *
+     * @param festivalNames 축제명 리스트
+     * @param years 년도 리스트
+     * @return 통계 데이터
+     */
+    public FestivalStatistics getFestivalStatistics(List<String> festivalNames, List<Integer> years) {
+        return festivalMapper.getFestivalStatistics(festivalNames, years);
+    }
+
+    /**
+     * 축제별 년도별 상세 데이터를 조회합니다.
+     *
+     * @param festivalNames 축제명 리스트
+     * @param years 년도 리스트
+     * @return 상세 데이터 리스트
+     */
+    public List<FestivalDetail> getFestivalDetails(List<String> festivalNames, List<Integer> years) {
+        return festivalMapper.getFestivalDetails(festivalNames, years);
     }
 }
