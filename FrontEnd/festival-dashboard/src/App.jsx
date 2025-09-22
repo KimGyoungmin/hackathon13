@@ -3,6 +3,7 @@ import FilterPanel from './components/FilterPanel/FilterPanel';
 import MapPanel from './components/MapPanel/MapPanel';
 import StatsPanel from './components/StatsPanel/StatsPanel';
 import ChartOnlyPanel from './components/ChartOnlyPanel/ChartOnlyPanel';
+import InputPage from './components/InputPage/InputPage';
 import './App.css';
 
 
@@ -17,6 +18,9 @@ function App() {
   // 뷰 모드 상태 ('split', 'map', 'chart')
   const [viewMode, setViewMode] = useState('split');
 
+  // 페이지 상태 ('dashboard', 'input', 'history')
+  const [currentPage, setCurrentPage] = useState('dashboard');
+
   // 년도 선택 상태 (StatsPanel과 ChartOnlyPanel에서 공유)
   const [selectedYears, setSelectedYears] = useState([2024]);
 
@@ -28,8 +32,23 @@ function App() {
     setAllFestivals
   }), []); // 빈 의존성 배열로 안정화
 
-  // 뷰 모드별 렌더링 함수
+  // 메인 콘텐츠 렌더링 함수
   const renderContent = () => {
+    // 페이지별 렌더링
+    if (currentPage === 'input') {
+      return <InputPage />;
+    }
+
+    if (currentPage === 'history') {
+      return (
+        <div className="page-placeholder">
+          <h2>히스토리 페이지</h2>
+          <p>히스토리 페이지는 추후 구현 예정입니다.</p>
+        </div>
+      );
+    }
+
+    // 대시보드 페이지 (기존 뷰 모드별 렌더링)
     switch (viewMode) {
       case 'split':
         return (
@@ -66,12 +85,22 @@ function App() {
       case 'map':
         return (
           <div className="map-only-layout">
-            <MapPanel
-              selectedFestivals={selectedFestivals}
-              selectedRegions={selectedRegions}
-              selectedCategories={selectedCategories}
-              allFestivals={allFestivals}
-            />
+            {/* 왼쪽 사이드바 - FilterPanel 컴포넌트 */}
+            <aside className="sidebar">
+              <FilterPanel
+                onSelectionChange={onSelectionChange}
+              />
+            </aside>
+
+            {/* 메인 콘텐츠 영역 - MapPanel 컴포넌트 */}
+            <section className="main-content">
+              <MapPanel
+                selectedFestivals={selectedFestivals}
+                selectedRegions={selectedRegions}
+                selectedCategories={selectedCategories}
+                allFestivals={allFestivals}
+              />
+            </section>
           </div>
         );
 
@@ -115,27 +144,54 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
+          {/* 왼쪽: 뷰 모드 버튼들 (대시보드 페이지에서만 표시) */}
+          <div className="left-section">
+            {currentPage === 'dashboard' && (
+              <div className="view-mode-buttons">
+                <button
+                  className={`view-btn ${viewMode === 'split' ? 'active' : ''}`}
+                  onClick={() => setViewMode('split')}
+                >
+                  분할보기
+                </button>
+                <button
+                  className={`view-btn ${viewMode === 'map' ? 'active' : ''}`}
+                  onClick={() => setViewMode('map')}
+                >
+                  지도만
+                </button>
+                <button
+                  className={`view-btn ${viewMode === 'chart' ? 'active' : ''}`}
+                  onClick={() => setViewMode('chart')}
+                >
+                  차트만
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* 가운데: 타이틀 */}
           <h1>전라남도 축제 데이터 분석</h1>
 
-          {/* 뷰 모드 버튼들 */}
-          <div className="view-mode-buttons">
+          {/* 오른쪽: 네비게이션 버튼들 */}
+          <div className="nav-buttons">
             <button
-              className={`view-btn ${viewMode === 'split' ? 'active' : ''}`}
-              onClick={() => setViewMode('split')}
+              className={`nav-btn ${currentPage === 'dashboard' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('dashboard')}
             >
-              분할보기
+              대시보드
             </button>
             <button
-              className={`view-btn ${viewMode === 'map' ? 'active' : ''}`}
-              onClick={() => setViewMode('map')}
+              className={`nav-btn ${currentPage === 'input' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('input')}
             >
-              지도만
+              입력 페이지
             </button>
             <button
-              className={`view-btn ${viewMode === 'chart' ? 'active' : ''}`}
-              onClick={() => setViewMode('chart')}
+              className={`nav-btn ${currentPage === 'history' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('history')}
             >
-              차트만
+              히스토리 페이지
             </button>
           </div>
         </div>

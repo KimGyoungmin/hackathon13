@@ -43,6 +43,15 @@ const KakaoMap = ({
       // 지도 컨테이너가 준비되었는지 확인
       if (!mapRef.current) {
         console.error('지도 컨테이너가 준비되지 않았습니다.');
+        setTimeout(initializeMap, 100);
+        return;
+      }
+
+      // 컨테이너의 크기가 0이면 잠시 기다렸다가 다시 시도
+      const containerRect = mapRef.current.getBoundingClientRect();
+      if (containerRect.width === 0 || containerRect.height === 0) {
+        console.log('지도 컨테이너 크기 확인 대기 중...');
+        setTimeout(initializeMap, 100);
         return;
       }
 

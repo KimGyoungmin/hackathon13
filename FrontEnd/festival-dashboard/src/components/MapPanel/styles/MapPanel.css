@@ -53,6 +53,7 @@
   flex: 1;
   position: relative;
   min-height: 400px;
+  height: 100%;
 }
 
 .map-panel__legend {
