@@ -204,194 +204,194 @@ const InputPage = () => {
         </div>
       )}
 
-      {/* 메인 콘텐츠 영역 */}
-      <div className="input-page__content">
-        {/* 왼쪽: 선택 데이터 */}
-        <div className="selected-data">
-          <h2>선택 데이터</h2>
+      {/* 선택 데이터 섹션 */}
+      <div className="selected-data-section">
+        <h2>선택 데이터</h2>
 
-          <div className="data-grid">
-            <div className="data-item">
-              <div className="data-label">예산 (백만원)</div>
-              <div className="data-value">
-                {festivalData ? Math.round((festivalData.budgetKrw || festivalData.budget_krw || 0) / 1000000).toLocaleString() : '-'}
-              </div>
+        {/* 첫 번째 줄: 3개 박스 */}
+        <div className="data-row">
+          <div className="data-item">
+            <div className="data-label">예산 (백만원)</div>
+            <div className="data-value">
+              {festivalData ? Math.round((festivalData.budgetKrw || festivalData.budget_krw || 0) / 1000000).toLocaleString() : '15,000'}
             </div>
+          </div>
 
-            <div className="data-item">
-              <div className="data-label">홍보 강도</div>
-              <div className="data-value">
-                {festivalData ? (festivalData.promoIntensityIndex || festivalData.promo_intensity_index || 0) : '-'}
-              </div>
+          <div className="data-item">
+            <div className="data-label">홍보 강도</div>
+            <div className="data-value">
+              {festivalData ? (festivalData.promoIntensityIndex || festivalData.promo_intensity_index || 0) : '0.2'}
             </div>
+          </div>
 
-            <div className="data-item">
-              <div className="data-label">숙박객 수 (명)</div>
-              <div className="data-value">
-                -
-              </div>
-            </div>
-
-            <div className="data-item highlighted">
-              <div className="data-label">방문객 수 (명)</div>
-              <div className="data-value">
-                {festivalData ? (festivalData.totalVisitors || festivalData.total_visitors || 0).toLocaleString() : '-'}
-              </div>
-            </div>
-
-            <div className="data-item highlighted">
-              <div className="data-label">매출액 (백만원)</div>
-              <div className="data-value">
-                {festivalData ? Math.round((festivalData.grossSales || festivalData.gross_sales || 0) / 1000000).toLocaleString() : '-'}
-              </div>
-            </div>
+          <div className="data-item">
+            <div className="data-label">숙박객 수 (명)</div>
+            <div className="data-value">데이터준비중</div>
           </div>
         </div>
 
-        {/* 오른쪽: 시뮬레이션 */}
-        <div className="simulation">
-          <h2>시뮬레이션</h2>
-
-          <div className="simulation-form">
-            {/* 예상 투입 예산 */}
-            <div className="form-group">
-              <label className="form-label">예상 투입 예산</label>
-              <div className="radio-group">
-                <label>
-                  <input
-                    type="radio"
-                    name="budgetType"
-                    value="amount"
-                    checked={budgetType === 'amount'}
-                    onChange={(e) => setBudgetType(e.target.value)}
-                  />
-                  백만원
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="budgetType"
-                    value="percent"
-                    checked={budgetType === 'percent'}
-                    onChange={(e) => setBudgetType(e.target.value)}
-                  />
-                  퍼센트
-                </label>
-              </div>
-              <input
-                type="number"
-                value={budgetValue}
-                onChange={(e) => setBudgetValue(e.target.value)}
-                placeholder={budgetType === 'amount' ? '15,000' : '0.8'}
-                className="form-input"
-              />
+        {/* 두 번째 줄: 2개 박스 (하이라이트) */}
+        <div className="data-row">
+          <div className="data-item highlighted">
+            <div className="data-label">방문객 수 (명)</div>
+            <div className="data-value">
+              {festivalData ? (festivalData.totalVisitors || festivalData.total_visitors || 0).toLocaleString() : '15,000'}
             </div>
+          </div>
 
-            {/* 예상 홍보 강도 */}
-            <div className="form-group">
-              <label className="form-label">예상 홍보 강도</label>
-              <div className="radio-group">
-                <label>
-                  <input
-                    type="radio"
-                    name="promoType"
-                    value="value"
-                    checked={promoType === 'value'}
-                    onChange={(e) => setPromoType(e.target.value)}
-                  />
-                  수치
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="promoType"
-                    value="percent"
-                    checked={promoType === 'percent'}
-                    onChange={(e) => setPromoType(e.target.value)}
-                  />
-                  퍼센트
-                </label>
-              </div>
-              <input
-                type="number"
-                step="0.1"
-                value={promoValue}
-                onChange={(e) => setPromoValue(e.target.value)}
-                placeholder={promoType === 'value' ? '0.8' : '20'}
-                className="form-input"
-              />
+          <div className="data-item highlighted">
+            <div className="data-label">매출액 (백만원)</div>
+            <div className="data-value">
+              {festivalData ? Math.round((festivalData.grossSales || festivalData.gross_sales || 0) / 1000000).toLocaleString() : '500'}
             </div>
-
-            {/* 예상 숙박객 수 */}
-            <div className="form-group">
-              <label className="form-label">예상 숙박객 수</label>
-              <div className="radio-group">
-                <label>
-                  <input
-                    type="radio"
-                    name="visitorsType"
-                    value="count"
-                    checked={visitorsType === 'count'}
-                    onChange={(e) => setVisitorsType(e.target.value)}
-                  />
-                  명
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="visitorsType"
-                    value="percent"
-                    checked={visitorsType === 'percent'}
-                    onChange={(e) => setVisitorsType(e.target.value)}
-                  />
-                  퍼센트
-                </label>
-              </div>
-              <input
-                type="number"
-                value={visitorsValue}
-                onChange={(e) => setVisitorsValue(e.target.value)}
-                placeholder={visitorsType === 'count' ? '10,000' : '15'}
-                className="form-input"
-              />
-            </div>
-
-            {/* 버튼 그룹 */}
-            <div className="button-group">
-              <button
-                className="simulate-btn"
-                onClick={handleSimulation}
-              >
-                예측 실행
-              </button>
-              <button
-                className="download-btn"
-                onClick={handleAlgorithmDownload}
-              >
-                알고리즘 다운로드
-              </button>
-            </div>
-
-            {/* 예상 결과 */}
-            {(predictedVisitors !== null && predictedSales !== null) && (
-              <div className="prediction-results">
-                <div className="result-item success">
-                  <div className="result-label">예상 방문객 수 (명)</div>
-                  <div className="result-value">
-                    {predictedVisitors.toLocaleString()}
-                  </div>
-                </div>
-
-                <div className="result-item success">
-                  <div className="result-label">예상 매출 (백만원)</div>
-                  <div className="result-value">
-                    {predictedSales.toLocaleString()}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
+      </div>
+
+      {/* 시뮬레이션 섹션 */}
+      <div className="simulation-section">
+        <h2>시뮬레이션</h2>
+
+        {/* 시뮬레이션 입력 */}
+        <div className="simulation-inputs">
+          {/* 예상 투입 예산 */}
+          <div className="input-item">
+            <div className="input-label">예상 투입 예산</div>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="budgetType"
+                  value="amount"
+                  checked={budgetType === 'amount'}
+                  onChange={(e) => setBudgetType(e.target.value)}
+                />
+                백만원
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="budgetType"
+                  value="percent"
+                  checked={budgetType === 'percent'}
+                  onChange={(e) => setBudgetType(e.target.value)}
+                />
+                퍼센트
+              </label>
+            </div>
+            <input
+              type="number"
+              value={budgetValue}
+              onChange={(e) => setBudgetValue(e.target.value)}
+              placeholder="15,000"
+              className="input-field"
+            />
+          </div>
+
+          {/* 예상 홍보 강도 */}
+          <div className="input-item">
+            <div className="input-label">예상 홍보 강도</div>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="promoType"
+                  value="value"
+                  checked={promoType === 'value'}
+                  onChange={(e) => setPromoType(e.target.value)}
+                />
+                수치
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="promoType"
+                  value="percent"
+                  checked={promoType === 'percent'}
+                  onChange={(e) => setPromoType(e.target.value)}
+                />
+                퍼센트
+              </label>
+            </div>
+            <input
+              type="number"
+              step="0.1"
+              value={promoValue}
+              onChange={(e) => setPromoValue(e.target.value)}
+              placeholder="0.8"
+              className="input-field"
+            />
+          </div>
+
+          {/* 예상 숙박객 수 */}
+          <div className="input-item">
+            <div className="input-label">예상 숙박객 수</div>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="visitorsType"
+                  value="count"
+                  checked={visitorsType === 'count'}
+                  onChange={(e) => setVisitorsType(e.target.value)}
+                />
+                명
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="visitorsType"
+                  value="percent"
+                  checked={visitorsType === 'percent'}
+                  onChange={(e) => setVisitorsType(e.target.value)}
+                />
+                퍼센트
+              </label>
+            </div>
+            <input
+              type="number"
+              value={visitorsValue}
+              onChange={(e) => setVisitorsValue(e.target.value)}
+              placeholder="10,000"
+              className="input-field"
+            />
+          </div>
+        </div>
+
+        {/* 버튼 그룹 */}
+        <div className="action-buttons">
+          <button
+            className="action-btn primary"
+            onClick={handleSimulation}
+          >
+            예측 실행
+          </button>
+          <button
+            className="action-btn secondary"
+            onClick={handleAlgorithmDownload}
+          >
+            알고리즘 다운로드
+          </button>
+        </div>
+
+        {/* 예상 결과 */}
+        {(predictedVisitors !== null && predictedSales !== null) && (
+          <div className="prediction-results">
+            <div className="result-item">
+              <div className="result-label">예상 방문객 수 (명)</div>
+              <div className="result-value">
+                {predictedVisitors.toLocaleString()}
+              </div>
+            </div>
+
+            <div className="result-item">
+              <div className="result-label">예상 매출 (백만원)</div>
+              <div className="result-value">
+                {predictedSales.toLocaleString()}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
