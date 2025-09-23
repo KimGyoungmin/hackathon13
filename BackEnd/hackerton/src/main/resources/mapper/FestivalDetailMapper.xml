@@ -7,6 +7,7 @@
     <!-- FestivalDetail ResultMap -->
     <resultMap id="FestivalDetailResultMap" type="com.example.hackerton.domain.FestivalDetail">
         <id property="festivalId" column="festival_id"/>
+        <result property="festivalName" column="festival_name"/>
         <result property="totalVisitors" column="total_visitors"/>
         <result property="avgDailyVisitors" column="avg_daily_visitors"/>
         <result property="durationDays" column="duration_days"/>
@@ -19,7 +20,7 @@
         <result property="totalPrecipMm" column="total_precip_mm"/>
         <result property="sunshineHours" column="sunshine_hours"/>
         <result property="trafficCongestionIndex" column="traffic_congestion_index"/>
-        <result property="localPopulation" column="local_population"/>
+        <result property="localPopulation" column="regional_pop_thousands"/>
         <result property="grdpPerCapitaMkrw" column="grdp_per_capita_mkrw"/>
         <result property="programCount" column="program_count"/>
         <result property="promoIntensityIndex" column="promo_intensity_index"/>

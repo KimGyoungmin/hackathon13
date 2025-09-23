@@ -86,8 +86,16 @@ const ChartOnlyPanel = ({ selectedFestivals, selectedYears, allFestivals }) => {
   const prepareChartData = (data, dataKey, label) => {
     if (!data || data.length === 0) return null;
 
-    const festivalNames = [...new Set(data.map(item => item.festivalName))];
-    const years = [...new Set(data.map(item => item.year))].sort();
+    // 매출과 예산 데이터를 백만원 단위로 변환
+    const convertedData = data.map(item => ({
+      ...item,
+      [dataKey]: (dataKey === 'grossSales' || dataKey === 'budgetKrw') 
+        ? Math.round((item[dataKey] || 0) / 1000000) 
+        : item[dataKey]
+    }));
+
+    const festivalNames = [...new Set(convertedData.map(item => item.festivalName))];
+    const years = [...new Set(convertedData.map(item => item.year))].sort();
 
     const chartType = getChartType(festivalNames.length, years.length);
 
@@ -95,7 +103,7 @@ const ChartOnlyPanel = ({ selectedFestivals, selectedYears, allFestivals }) => {
       if (festivalNames.length === 1 && years.length === 1) {
         // 단일 축제 + 단일 년도: 축제명을 라벨로
         const labels = festivalNames;
-        const chartData = [data[0] ? data[0][dataKey] || 0 : 0];
+        const chartData = [convertedData[0] ? convertedData[0][dataKey] || 0 : 0];
 
         return {
           type: 'bar',
@@ -135,7 +143,7 @@ const ChartOnlyPanel = ({ selectedFestivals, selectedYears, allFestivals }) => {
     } else {
       // Line 차트 데이터 (단일축제+다중년도 또는 다중축제+다중년도)
       const datasets = festivalNames.map((festivalName, index) => {
-        const festivalData = data.filter(item => item.festivalName === festivalName);
+        const festivalData = convertedData.filter(item => item.festivalName === festivalName);
         const dataPoints = years.map(year => {
           const yearData = festivalData.find(item => item.year === year);
           return yearData ? yearData[dataKey] || 0 : 0;
@@ -226,7 +234,7 @@ const ChartOnlyPanel = ({ selectedFestivals, selectedYears, allFestivals }) => {
                 if (canvasId === 'revenue' || canvasId === 'budget') {
                   unit = '백만원';
                 } else if (canvasId === 'promotion') {
-                  unit = '점';
+                  unit = '건';
                 } else if (canvasId === 'lodging') {
                   unit = '%';
                 }
@@ -375,15 +383,15 @@ const ChartOnlyPanel = ({ selectedFestivals, selectedYears, allFestivals }) => {
         {isDataAvailable ? (
           <div className="chart-card">
             <div className="chart-header">
-              <h3>홍보 강도</h3>
-              <span className="chart-unit">(지수)</span>
+              <h3>홍보량</h3>
+              <span className="chart-unit">(건)</span>
             </div>
             <div className="chart-container">
               <canvas id="promotion"></canvas>
             </div>
           </div>
         ) : (
-          <EmptyChart title="홍보 강도" unit="(지수)" />
+          <EmptyChart title="홍보량" unit="(건)" />
         )}
 
         {/* 2행 1열 - 예산 차트 */}

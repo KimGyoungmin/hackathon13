@@ -142,10 +142,153 @@
   background-color: var(--white);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 8px;
+  padding: 0;
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 차트 헤더 */
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.chart-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: baseline; /* 텍스트 기준선에 맞춤 */
+  gap: 6px;
+}
+
+/* 정보 아이콘 */
+.chart-info-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0; /* 제목이 줄어들어도 아이콘 크기 유지 */
+  transform: translateY(-1px); /* 텍스트와 수직 정렬을 위해 약간 위로 이동 */
+}
+
+.chart-info-icon:hover {
+  background-color: rgba(45, 80, 22, 0.8);
+  transform: translateY(-1px) scale(1.1); /* 기본 위치 유지하면서 확대 */
+}
+
+.info-icon {
+  font-size: 12px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1;
+}
+
+/* 정보 툴팁 */
+.info-tooltip {
+  position: fixed;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.tooltip-content {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  max-width: 350px;
+}
+
+.tooltip-content h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+.tooltip-content p {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.tooltip-content p:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-content strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* 툴팁 구분선 */
+.tooltip-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 12px 0 8px 0;
+}
+
+/* 선택된 축제/연도 리스트 */
+.selected-festivals-list,
+.selected-years-list {
+  margin: 4px 0 0 0;
+  padding-left: 16px;
+  list-style-type: none;
+}
+
+.selected-festivals-list li,
+.selected-years-list li {
+  margin: 2px 0;
+  padding: 2px 0;
+  font-size: 12px;
+  color: var(--text);
+  position: relative;
+}
+
+.selected-festivals-list li::before,
+.selected-years-list li::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+  position: absolute;
+  left: -12px;
+}
+
+.selected-festivals-list li:first-child,
+.selected-years-list li:first-child {
+  margin-top: 0;
+}
+
+.selected-festivals-list li:last-child,
+.selected-years-list li:last-child {
+  margin-bottom: 0;
 }
 
 /* 차트 내부 영역 */
@@ -217,6 +360,33 @@
     padding: 12px;
   }
 
+  .chart-title {
+    font-size: 16px;
+  }
+
+  .chart-info-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .info-icon {
+    font-size: 11px;
+  }
+
+  .tooltip-content {
+    min-width: 280px;
+    max-width: 320px;
+    padding: 12px;
+  }
+
+  .tooltip-content h4 {
+    font-size: 13px;
+  }
+
+  .tooltip-content p {
+    font-size: 11px;
+  }
+
   .stats-card {
     padding: 12px;
   }
@@ -234,6 +404,33 @@
   .stats-cards {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .chart-title {
+    font-size: 14px;
+  }
+
+  .chart-info-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .info-icon {
+    font-size: 10px;
+  }
+
+  .tooltip-content {
+    min-width: 260px;
+    max-width: 300px;
+    padding: 10px;
+  }
+
+  .tooltip-content h4 {
+    font-size: 12px;
+  }
+
+  .tooltip-content p {
+    font-size: 10px;
   }
 
   .dropdown-options {

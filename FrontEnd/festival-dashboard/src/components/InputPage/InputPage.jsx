@@ -8,6 +8,7 @@
  * - 하단: 판단 근거
  */
 import React, { useState, useEffect } from 'react';
+import { inputPageAPI } from '../../services/api';
 import './styles/InputPage.css';
 
 const InputPage = () => {
@@ -46,18 +47,15 @@ const InputPage = () => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        // TODO: 실제 카테고리 API 호출
-        // const response = await fetch('/api/categories');
-        // const categoriesData = await response.json();
-        // setCategories(categoriesData);
-        
-        // 임시 데이터
-        setCategories([
-          { id: 1, name: '문화예술' },
-          { id: 2, name: '음식' },
-          { id: 3, name: '자연환경' },
-          { id: 4, name: '전통문화' }
-        ]);
+        // 카테고리 API 호출
+        const response = await fetch('http://localhost:8080/api/filters');
+        if (response.ok) {
+          const data = await response.json();
+          setCategories(data.data.categories);
+        } else {
+          console.error('카테고리 로드 실패');
+          setCategories([]);
+        }
       } catch (err) {
         console.error('카테고리 로드 실패:', err);
       }
@@ -70,33 +68,28 @@ const InputPage = () => {
     const loadFestivals = async () => {
       if (selectedCategory) {
         try {
-          // TODO: 실제 축제 API 호출 (카테고리 필터링)
-          // const response = await fetch(`/api/festivals?categoryId=${selectedCategory}`);
-          // const festivalsData = await response.json();
-          // setFestivals(festivalsData);
-          
-          // 임시 데이터 - 카테고리별 축제 목록
-          const festivalsByCategory = {
-            1: [ // 문화예술
-              { id: 1, name: '강진만춤추는갈대축제' },
-              { id: 2, name: '강진청자축제' },
-              { id: 3, name: '군동풍동봄꽃축제' }
-            ],
-            2: [ // 음식
-              { id: 4, name: '강진녹차축제' },
-              { id: 5, name: '전남해양수산축제' }
-            ],
-            3: [ // 자연환경
-              { id: 6, name: '다도해해상국립공원축제' },
-              { id: 7, name: '완도해조류축제' }
-            ],
-            4: [ // 전통문화
-              { id: 8, name: '진도신비의바닷길축제' },
-              { id: 9, name: '고흥우주항공축제' }
-            ]
-          };
-          
-          setFestivals(festivalsByCategory[selectedCategory] || []);
+          // 축제 API 호출 (카테고리 필터링)
+          const response = await fetch(`http://localhost:8080/api/festivals?categories=${selectedCategory}`);
+          if (response.ok) {
+            const data = await response.json();
+            console.log('API 응답 데이터:', data.data);
+            console.log('총 축제 수:', data.data.length);
+            
+            // 축제명으로 중복 제거 (Map 사용으로 더 효율적)
+            const festivalMap = new Map();
+            data.data.forEach(festival => {
+              if (!festivalMap.has(festival.name)) {
+                festivalMap.set(festival.name, festival);
+              }
+            });
+            const uniqueFestivals = Array.from(festivalMap.values());
+            console.log('중복 제거 후 축제 수:', uniqueFestivals.length);
+            console.log('고유 축제 목록:', uniqueFestivals.map(f => f.name));
+            setFestivals(uniqueFestivals);
+          } else {
+            console.error('축제 로드 실패');
+            setFestivals([]);
+          }
         } catch (err) {
           console.error('축제 로드 실패:', err);
         }
@@ -112,25 +105,17 @@ const InputPage = () => {
     const loadYears = async () => {
       if (selectedFestival) {
         try {
-          // TODO: 실제 연도 API 호출
-          // const response = await fetch(`/api/festivals/${selectedFestival}/years`);
-          // const yearsData = await response.json();
-          // setYears(yearsData);
-          
-          // 임시 데이터 - 축제별 사용 가능한 연도
-          const yearsByFestival = {
-            1: [2022, 2023, 2024], // 강진만춤추는갈대축제
-            2: [2021, 2022, 2023, 2024], // 강진청자축제
-            3: [2023, 2024], // 군동풍동봄꽃축제
-            4: [2022, 2023, 2024], // 강진녹차축제
-            5: [2021, 2022, 2023, 2024], // 전남해양수산축제
-            6: [2023, 2024], // 다도해해상국립공원축제
-            7: [2022, 2023, 2024], // 완도해조류축제
-            8: [2021, 2022, 2023, 2024], // 진도신비의바닷길축제
-            9: [2023, 2024] // 고흥우주항공축제
-          };
-          
-          setYears(yearsByFestival[selectedFestival] || []);
+          // 연도 API 호출 (축제 상세 정보에서 연도 추출)
+          const response = await fetch(`http://localhost:8080/api/festivals/details?festivalNames=${selectedFestival}`);
+          if (response.ok) {
+            const data = await response.json();
+            // 중복 제거하고 연도만 추출
+            const years = [...new Set(data.map(item => item.year))];
+            setYears(years.sort((a, b) => b - a)); // 내림차순 정렬
+          } else {
+            console.error('연도 로드 실패');
+            setYears([]);
+          }
         } catch (err) {
           console.error('연도 로드 실패:', err);
         }
@@ -147,80 +132,29 @@ const InputPage = () => {
       if (selectedFestival && selectedYear) {
         setLoading(true);
         try {
-          // TODO: 실제 API 호출
-          // const response = await fetch(`/api/festivals/${selectedFestival}/data/${selectedYear}`);
-          // const data = await response.json();
-          // setSelectedData(data);
-          
-          // 임시 데이터 - 축제별, 연도별 실제 데이터
-          const festivalData = {
-            // 강진만춤추는갈대축제
-            1: {
-              2022: { budget: 12000, promotion: 18, traffic: 65, programs: 19, visitors: 12000, revenue: 450 },
-              2023: { budget: 15000, promotion: 20, traffic: 67, programs: 21, visitors: 15000, revenue: 500 },
-              2024: { budget: 18000, promotion: 22, traffic: 70, programs: 23, visitors: 18000, revenue: 600 }
-            },
-            // 강진청자축제
-            2: {
-              2021: { budget: 10000, promotion: 15, traffic: 60, programs: 17, visitors: 10000, revenue: 400 },
-              2022: { budget: 13000, promotion: 18, traffic: 63, programs: 19, visitors: 13000, revenue: 480 },
-              2023: { budget: 16000, promotion: 21, traffic: 68, programs: 22, visitors: 16000, revenue: 550 },
-              2024: { budget: 19000, promotion: 24, traffic: 72, programs: 25, visitors: 19000, revenue: 650 }
-            },
-            // 군동풍동봄꽃축제
-            3: {
-              2023: { budget: 8000, promotion: 12, traffic: 55, programs: 15, visitors: 8000, revenue: 300 },
-              2024: { budget: 11000, promotion: 16, traffic: 62, programs: 18, visitors: 11000, revenue: 420 }
-            },
-            // 강진녹차축제
-            4: {
-              2022: { budget: 9000, promotion: 14, traffic: 58, programs: 16, visitors: 9000, revenue: 350 },
-              2023: { budget: 12000, promotion: 17, traffic: 64, programs: 20, visitors: 12000, revenue: 450 },
-              2024: { budget: 15000, promotion: 20, traffic: 69, programs: 22, visitors: 15000, revenue: 520 }
-            },
-            // 전남해양수산축제
-            5: {
-              2021: { budget: 14000, promotion: 19, traffic: 66, programs: 21, visitors: 14000, revenue: 480 },
-              2022: { budget: 17000, promotion: 22, traffic: 70, programs: 24, visitors: 17000, revenue: 580 },
-              2023: { budget: 20000, promotion: 25, traffic: 75, programs: 27, visitors: 20000, revenue: 680 },
-              2024: { budget: 23000, promotion: 28, traffic: 80, programs: 30, visitors: 23000, revenue: 780 }
-            },
-            // 다도해해상국립공원축제
-            6: {
-              2023: { budget: 11000, promotion: 16, traffic: 61, programs: 18, visitors: 11000, revenue: 400 },
-              2024: { budget: 14000, promotion: 19, traffic: 67, programs: 21, visitors: 14000, revenue: 500 }
-            },
-            // 완도해조류축제
-            7: {
-              2022: { budget: 10000, promotion: 15, traffic: 59, programs: 17, visitors: 10000, revenue: 380 },
-              2023: { budget: 13000, promotion: 18, traffic: 65, programs: 20, visitors: 13000, revenue: 470 },
-              2024: { budget: 16000, promotion: 21, traffic: 71, programs: 23, visitors: 16000, revenue: 560 }
-            },
-            // 진도신비의바닷길축제
-            8: {
-              2021: { budget: 12000, promotion: 17, traffic: 64, programs: 19, visitors: 12000, revenue: 450 },
-              2022: { budget: 15000, promotion: 20, traffic: 68, programs: 22, visitors: 15000, revenue: 520 },
-              2023: { budget: 18000, promotion: 23, traffic: 73, programs: 25, visitors: 18000, revenue: 620 },
-              2024: { budget: 21000, promotion: 26, traffic: 78, programs: 28, visitors: 21000, revenue: 720 }
-            },
-            // 고흥우주항공축제
-            9: {
-              2023: { budget: 13000, promotion: 18, traffic: 66, programs: 20, visitors: 13000, revenue: 480 },
-              2024: { budget: 17000, promotion: 22, traffic: 72, programs: 24, visitors: 17000, revenue: 600 }
+          // 선택 데이터 API 호출
+          const response = await fetch(`http://localhost:8080/api/festivals/details?festivalNames=${selectedFestival}&years=${selectedYear}`);
+          if (response.ok) {
+            const data = await response.json();
+            console.log('선택 데이터 API 응답:', data);
+            if (data && data.length > 0) {
+              console.log('첫 번째 데이터:', data[0]);
+              console.log('교통량 필드:', data[0].trafficCongestionIndex);
+              console.log('프로그램수 필드:', data[0].programCount);
+              setSelectedData(data[0]); // 첫 번째 결과 사용
+              setError(null);
+            } else {
+              setError('해당 연도의 데이터를 찾을 수 없습니다.');
+              setSelectedData(null);
             }
-          };
-          
-          const data = festivalData[selectedFestival]?.[selectedYear];
-          if (data) {
-            setSelectedData(data);
-            setError(null);
           } else {
-            setError('해당 연도의 데이터를 찾을 수 없습니다.');
+            console.error('선택 데이터 로드 실패');
+            setError('데이터를 불러올 수 없습니다.');
             setSelectedData(null);
           }
         } catch (error) {
-          setError('데이터 로드 실패');
           console.error('데이터 로드 실패:', error);
+          setError('데이터를 불러올 수 없습니다.');
           setSelectedData(null);
         } finally {
           setLoading(false);
@@ -303,8 +237,8 @@ const InputPage = () => {
               className="filter-dropdown"
             >
               <option value="">카테고리 선택</option>
-              {categories.map(category => (
-                <option key={category.id} value={category.id}>
+              {categories.map((category, index) => (
+                <option key={`${category.id}-${index}`} value={category.id}>
                   {category.name}
                 </option>
               ))}
@@ -317,8 +251,8 @@ const InputPage = () => {
               disabled={!selectedCategory}
             >
               <option value="">축제 선택</option>
-              {festivals.map(festival => (
-                <option key={festival.id} value={festival.id}>
+              {festivals.map((festival, index) => (
+                <option key={`${festival.id}-${index}`} value={festival.name}>
                   {festival.name}
                 </option>
               ))}
@@ -331,8 +265,8 @@ const InputPage = () => {
               disabled={!selectedFestival}
             >
               <option value="">연도 선택</option>
-              {years.map(year => (
-                <option key={year} value={year}>
+              {years.map((year, index) => (
+                <option key={`${year}-${index}`} value={year}>
                   {year}
                 </option>
               ))}
@@ -357,37 +291,37 @@ const InputPage = () => {
             <div className="data-item">
               <div className="data-label">예산 (백만원)</div>
               <div className="data-value">
-                {selectedData ? selectedData.budget.toLocaleString() : '-'}
+                {selectedData && selectedData.budgetKrw ? Math.round(selectedData.budgetKrw / 1000000).toLocaleString() : '-'}
               </div>
             </div>
             <div className="data-item">
               <div className="data-label">홍보량</div>
               <div className="data-value">
-                {selectedData ? selectedData.promotion : '-'}
+                {selectedData ? selectedData.promoIntensityIndex : '-'}
               </div>
             </div>
             <div className="data-item">
               <div className="data-label">교통량</div>
               <div className="data-value">
-                {selectedData ? selectedData.traffic : '-'}
+                {selectedData ? selectedData.trafficCongestionIndex : '-'}
               </div>
             </div>
             <div className="data-item">
               <div className="data-label">프로그램 수 (개)</div>
               <div className="data-value">
-                {selectedData ? selectedData.programs : '-'}
+                {selectedData ? selectedData.programCount : '-'}
               </div>
             </div>
             <div className="data-item">
               <div className="data-label">방문객 수 (명)</div>
               <div className="data-value">
-                {selectedData ? selectedData.visitors.toLocaleString() : '-'}
+                {selectedData && selectedData.totalVisitors ? selectedData.totalVisitors.toLocaleString() : '-'}
               </div>
             </div>
             <div className="data-item">
               <div className="data-label">매출 (백만원)</div>
               <div className="data-value">
-                {selectedData ? selectedData.revenue.toLocaleString() : '-'}
+                {selectedData && selectedData.grossSales ? Math.round(selectedData.grossSales / 1000000).toLocaleString() : '-'}
               </div>
             </div>
           </div>
@@ -400,180 +334,171 @@ const InputPage = () => {
           {/* 시뮬레이션 입력 */}
           <div className="simulation-inputs">
             <div className="input-group">
-              <label>예상 투입예산</label>
-              <div className="input-row">
-                <div className="radio-group">
-                  <label>
-                    <input
-                      type="radio"
-                      name="budgetType"
-                      value="amount"
-                      checked={budgetType === 'amount'}
-                      onChange={(e) => setBudgetType(e.target.value)}
-                    />
-                    수치
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="budgetType"
-                      value="percent"
-                      checked={budgetType === 'percent'}
-                      onChange={(e) => setBudgetType(e.target.value)}
-                    />
-                    비율
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  value={expectedBudget}
-                  onChange={(e) => setExpectedBudget(e.target.value)}
-                  placeholder="15000"
-                  className="input-field"
-                />
+              <label>예상 투입예산 <span className="required-badge">필수</span></label>
+              <div className="radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="budgetType"
+                    value="amount"
+                    checked={budgetType === 'amount'}
+                    onChange={(e) => setBudgetType(e.target.value)}
+                  />
+                  수치 (백만원)
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="budgetType"
+                    value="percent"
+                    checked={budgetType === 'percent'}
+                    onChange={(e) => setBudgetType(e.target.value)}
+                  />
+                  비율 (%)
+                </label>
               </div>
+              <input
+                type="number"
+                value={expectedBudget}
+                onChange={(e) => setExpectedBudget(e.target.value)}
+                placeholder="15000"
+                className="input-field"
+              />
             </div>
 
             <div className="input-group">
-              <label>예상 홍보량</label>
-              <div className="input-row">
-                <div className="radio-group">
-                  <label>
-                    <input
-                      type="radio"
-                      name="promotionType"
-                      value="amount"
-                      checked={promotionType === 'amount'}
-                      onChange={(e) => setPromotionType(e.target.value)}
-                    />
-                    수치
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="promotionType"
-                      value="percent"
-                      checked={promotionType === 'percent'}
-                      onChange={(e) => setPromotionType(e.target.value)}
-                    />
-                    비율
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  value={expectedPromotion}
-                  onChange={(e) => setExpectedPromotion(e.target.value)}
-                  placeholder="20"
-                  className="input-field"
-                />
+              <label>예상 홍보량 <span className="optional-badge">선택</span></label>
+              <div className="radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="promotionType"
+                    value="amount"
+                    checked={promotionType === 'amount'}
+                    onChange={(e) => setPromotionType(e.target.value)}
+                  />
+                  수치
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="promotionType"
+                    value="percent"
+                    checked={promotionType === 'percent'}
+                    onChange={(e) => setPromotionType(e.target.value)}
+                  />
+                  비율 (%)
+                </label>
               </div>
+              <input
+                type="number"
+                value={expectedPromotion}
+                onChange={(e) => setExpectedPromotion(e.target.value)}
+                placeholder="30"
+                className="input-field"
+              />
             </div>
 
             <div className="input-group">
-              <label>예상 교통량</label>
-              <div className="input-row">
-                <div className="radio-group">
-                  <label>
-                    <input
-                      type="radio"
-                      name="trafficType"
-                      value="amount"
-                      checked={trafficType === 'amount'}
-                      onChange={(e) => setTrafficType(e.target.value)}
-                    />
-                    수치
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="trafficType"
-                      value="percent"
-                      checked={trafficType === 'percent'}
-                      onChange={(e) => setTrafficType(e.target.value)}
-                    />
-                    비율
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  value={expectedTraffic}
-                  onChange={(e) => setExpectedTraffic(e.target.value)}
-                  placeholder="67"
-                  className="input-field"
-                />
+              <label>예상 교통량 <span className="optional-badge">선택</span></label>
+              <div className="radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="trafficType"
+                    value="amount"
+                    checked={trafficType === 'amount'}
+                    onChange={(e) => setTrafficType(e.target.value)}
+                  />
+                  수치
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="trafficType"
+                    value="percent"
+                    checked={trafficType === 'percent'}
+                    onChange={(e) => setTrafficType(e.target.value)}
+                  />
+                  비율 (%)
+                </label>
               </div>
+              <input
+                type="number"
+                value={expectedTraffic}
+                onChange={(e) => setExpectedTraffic(e.target.value)}
+                placeholder="47"
+                className="input-field"
+              />
             </div>
 
             <div className="input-group">
-              <label>예상 프로그램수</label>
-              <div className="input-row">
-                <div className="radio-group">
-                  <label>
-                    <input
-                      type="radio"
-                      name="programsType"
-                      value="amount"
-                      checked={programsType === 'amount'}
-                      onChange={(e) => setProgramsType(e.target.value)}
-                    />
-                    수치
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="programsType"
-                      value="percent"
-                      checked={programsType === 'percent'}
-                      onChange={(e) => setProgramsType(e.target.value)}
-                    />
-                    비율
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  value={expectedPrograms}
-                  onChange={(e) => setExpectedPrograms(e.target.value)}
-                  placeholder="21"
-                  className="input-field"
-                />
+              <label>예상 프로그램 수 <span className="optional-badge">선택</span></label>
+              <div className="radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="programsType"
+                    value="amount"
+                    checked={programsType === 'amount'}
+                    onChange={(e) => setProgramsType(e.target.value)}
+                  />
+                  수치 (개)
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="programsType"
+                    value="percent"
+                    checked={programsType === 'percent'}
+                    onChange={(e) => setProgramsType(e.target.value)}
+                  />
+                  비율 (%)
+                </label>
               </div>
+              <input
+                type="number"
+                value={expectedPrograms}
+                onChange={(e) => setExpectedPrograms(e.target.value)}
+                placeholder="25"
+                className="input-field"
+              />
             </div>
           </div>
 
-          {/* 예측 생성 버튼 */}
-          <button
-            className="predict-btn"
-            onClick={handlePredict}
-            disabled={loading || !selectedData}
-          >
-            {loading ? '예측 생성 중...' : '예측 생성'}
-          </button>
+          {/* 버튼 영역 */}
+          <div className="button-row">
+            <button
+              className="predict-btn"
+              onClick={handlePredict}
+              disabled={loading || !selectedData}
+            >
+              {loading ? '예측 생성 중...' : '예측 생성'}
+            </button>
+            
+            <button
+              className="download-btn"
+              onClick={handleDownloadReport}
+            >
+              결과 보고서 다운로드
+            </button>
+          </div>
 
           {/* 예측 결과 */}
-          {(predictedVisitors !== null && predictedRevenue !== null) && (
-            <div className="prediction-results">
-              <div className="result-item">
-                <div className="result-label">예상 방문객수</div>
-                <div className="result-value">{predictedVisitors.toLocaleString()}명</div>
-              </div>
-              <div className="result-item">
-                <div className="result-label">예상 매출</div>
-                <div className="result-value">{predictedRevenue.toLocaleString()}백만원</div>
+          <div className="prediction-results">
+            <div className="result-form">
+              <label>예상 방문객 수 (명)</label>
+              <div className="result-display">
+                {predictedVisitors !== null ? predictedVisitors.toLocaleString() : '15,000'}
               </div>
             </div>
-          )}
-
-          {/* 보고서 다운로드 */}
-          {reportGenerated && (
-            <div className="report-section">
-              <button
-                className="download-btn"
-                onClick={handleDownloadReport}
-              >
-                📄 결과 보고서 다운로드
-              </button>
+            <div className="result-form">
+              <label>예상 매출 (백만원)</label>
+              <div className="result-display">
+                {predictedRevenue !== null ? predictedRevenue.toLocaleString() : '500'}
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 

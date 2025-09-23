@@ -188,6 +188,30 @@
   color: #1f2937;
 }
 
+.required-badge {
+  background-color: #e5e7eb;
+  color: #6b7280;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.optional-badge {
+  background-color: #e5e7eb;
+  color: #6b7280;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .input-row {
   display: flex;
   gap: 12px;
@@ -197,7 +221,7 @@
 .radio-group {
   display: flex;
   gap: 12px;
-  min-width: 140px;
+  margin-bottom: 8px;
 }
 
 .radio-group label {
@@ -238,16 +262,16 @@
   color: #9ca3af;
 }
 
-/* 버튼 그룹 */
-.button-group {
+/* 버튼 행 */
+.button-row {
   display: flex;
+  justify-content: flex-end;
   gap: 12px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .predict-btn {
-  flex: 1;
-  padding: 10px 20px;
+  padding: 10px 16px;
   background-color: #2d5016;
   color: #ffffff;
   border: none;
@@ -256,6 +280,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .predict-btn:hover:not(:disabled) {
@@ -268,8 +293,7 @@
 }
 
 .download-btn {
-  flex: 1;
-  padding: 10px 20px;
+  padding: 10px 16px;
   background-color: #3b82f6;
   color: #ffffff;
   border: none;
@@ -278,6 +302,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .download-btn:hover {
@@ -288,34 +313,31 @@
 .prediction-results {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  margin-top: 20px;
 }
 
-.result-item {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 16px;
+.result-form {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.result-item.highlighted {
-  background-color: #f0fdf4;
-  border: 1px solid #22c55e;
-}
-
-.result-label {
+.result-form label {
   font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.result-value {
-  font-size: 16px;
   font-weight: 600;
   color: #1f2937;
+}
+
+.result-display {
+  background-color: #f0fdf4;
+  border: 1px solid #22c55e;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #2d5016;
+  font-weight: 700;
+  text-align: center;
 }
 
 .result-item.highlighted .result-value {
