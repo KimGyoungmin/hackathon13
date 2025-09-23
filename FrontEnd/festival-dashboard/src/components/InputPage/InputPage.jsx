@@ -503,28 +503,34 @@ const InputPage = () => {
       </div>
 
       {/* 하단: 판단 근거 */}
-      <div className="reasoning-section">
-        <h3>판단 근거</h3>
-        {reasoning && (
-          <div className="reasoning-content">
-            <div className="reasoning-item">
-              <div className="reasoning-title">1. 예상 방문객 수</div>
-              <div className="reasoning-details">
-                <div className="reasoning-detail">a. 입력된 교통량(67)과 프로그램 수(21)가 중간 수준으로 설정되어 있어, 방문객 유입의 안정적 기반이 마련됨.</div>
-                <div className="reasoning-detail">b. 홍보량이 수치 기준으로 20으로 설정되어 있어, 기본적인 대외 홍보 효과가 반영됨.</div>
-                <div className="reasoning-detail">c. 이에 따라 시뮬레이션 결과로 산출된 방문객 수는 15,000명으로 현실적인 규모의 예측치임.</div>
+      <div className="reasoning-container">
+        <div className="reasoning-section">
+          <h3>판단 근거</h3>
+          {reasoning ? (
+            <div className="reasoning-content">
+              <div className="reasoning-item">
+                <div className="reasoning-title">1. 예상 방문객 수</div>
+                <div className="reasoning-details">
+                  <div className="reasoning-detail">a. 입력된 교통량(67)과 프로그램 수(21)가 중간 수준으로 설정되어 있어, 방문객 유입의 안정적 기반이 마련됨.</div>
+                  <div className="reasoning-detail">b. 홍보량이 수치 기준으로 20으로 설정되어 있어, 기본적인 대외 홍보 효과가 반영됨.</div>
+                  <div className="reasoning-detail">c. 이에 따라 시뮬레이션 결과로 산출된 방문객 수는 15,000명으로 현실적인 규모의 예측치임.</div>
+                </div>
+              </div>
+              <div className="reasoning-item">
+                <div className="reasoning-title">2. 예상 매출</div>
+                <div className="reasoning-details">
+                  <div className="reasoning-detail">a. 매출은 방문객 수(15,000명)와 평균 소비 패턴을 기반으로 산출됨.</div>
+                  <div className="reasoning-detail">b. 투입 예산(15,000백만원)에 비해 매출은 500백만원으로, 초기 투자 회수보다는 인지도 제고 효과에 더 초점이 맞춰짐.</div>
+                  <div className="reasoning-detail">c. 이는 프로그램 참여율과 방문객 소비 수준이 보수적으로 반영된 결과임.</div>
+                </div>
               </div>
             </div>
-            <div className="reasoning-item">
-              <div className="reasoning-title">2. 예상 매출</div>
-              <div className="reasoning-details">
-                <div className="reasoning-detail">a. 매출은 방문객 수(15,000명)와 평균 소비 패턴을 기반으로 산출됨.</div>
-                <div className="reasoning-detail">b. 투입 예산(15,000백만원)에 비해 매출은 500백만원으로, 초기 투자 회수보다는 인지도 제고 효과에 더 초점이 맞춰짐.</div>
-                <div className="reasoning-detail">c. 이는 프로그램 참여율과 방문객 소비 수준이 보수적으로 반영된 결과임.</div>
-              </div>
+          ) : (
+            <div className="reasoning-placeholder">
+              <p>예측 생성 후 판단 근거가 표시됩니다.</p>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* 에러 메시지 */}

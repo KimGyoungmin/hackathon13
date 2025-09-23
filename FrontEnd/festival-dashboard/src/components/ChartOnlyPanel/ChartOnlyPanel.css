@@ -149,3 +149,121 @@
   margin: 0;
   line-height: 1.4;
 }
+
+/* 차트 제목 스타일 */
+.chart-title {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+/* 정보 아이콘 */
+.chart-info-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  transform: translateY(-1px);
+}
+
+.chart-info-icon:hover {
+  background-color: rgba(45, 80, 22, 0.8);
+  transform: translateY(-1px) scale(1.1);
+}
+
+.info-icon {
+  font-size: 12px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1;
+}
+
+/* 정보 툴팁 */
+.info-tooltip {
+  position: fixed;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.tooltip-content {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  max-width: 350px;
+}
+
+.tooltip-content h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.tooltip-content p {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.tooltip-content p:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-content strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* 툴팁 구분선 */
+.tooltip-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 12px 0 8px 0;
+}
+
+/* 선택된 축제 리스트 */
+.selected-festivals-list {
+  margin: 4px 0 0 0;
+  padding-left: 16px;
+  list-style-type: none;
+}
+
+.selected-festivals-list li {
+  margin: 2px 0;
+  padding: 2px 0;
+  font-size: 12px;
+  color: var(--text);
+  position: relative;
+}
+
+.selected-festivals-list li::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+  position: absolute;
+  left: -12px;
+}
+
+.selected-festivals-list li:first-child {
+  margin-top: 0;
+}
+
+.selected-festivals-list li:last-child {
+  margin-bottom: 0;
+}

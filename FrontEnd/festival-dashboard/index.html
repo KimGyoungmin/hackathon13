@@ -17,7 +17,7 @@
                 return;
             }
             
-            console.log('카카오맵 API 키:', CONFIG.KAKAO_MAP_KEY);
+            console.log('카카오맵 API 키:');
 
             // 카카오맵 SDK 로드
             const script = document.createElement('script');
@@ -34,7 +34,7 @@
                 });
             };
             script.onerror = function() {
-                console.error('카카오맵 SDK 로드 실패 - API 키를 확인해주세요:', CONFIG.KAKAO_MAP_KEY);
+                console.error('카카오맵 SDK 로드 실패 - API 키를 확인해주세요:');
             };
             document.head.appendChild(script);
         }

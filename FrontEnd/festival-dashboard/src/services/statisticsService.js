@@ -150,12 +150,46 @@ const generateSampleDetailData = (festivalNames, years) => {
 };
 
 /**
+ * 축제별 색상 팔레트 (차트만 패널과 동일)
+ */
+const getFestivalColorPalette = () => {
+  return {
+    backgroundColor: [
+      'rgba(59, 130, 246, 0.8)',   // 파란색
+      'rgba(16, 185, 129, 0.8)',   // 초록색
+      'rgba(245, 158, 11, 0.8)',   // 주황색
+      'rgba(239, 68, 68, 0.8)',    // 빨간색
+      'rgba(139, 92, 246, 0.8)',   // 보라색
+      'rgba(236, 72, 153, 0.8)',   // 핑크색
+      'rgba(6, 182, 212, 0.8)',    // 청록색
+      'rgba(34, 197, 94, 0.8)',    // 라임색
+      'rgba(251, 146, 60, 0.8)',   // 오렌지색
+      'rgba(168, 85, 247, 0.8)',   // 바이올렛색
+    ],
+    borderColor: [
+      'rgba(59, 130, 246, 1)',
+      'rgba(16, 185, 129, 1)',
+      'rgba(245, 158, 11, 1)',
+      'rgba(239, 68, 68, 1)',
+      'rgba(139, 92, 246, 1)',
+      'rgba(236, 72, 153, 1)',
+      'rgba(6, 182, 212, 1)',
+      'rgba(34, 197, 94, 1)',
+      'rgba(251, 146, 60, 1)',
+      'rgba(168, 85, 247, 1)',
+    ]
+  };
+};
+
+/**
  * 차트 데이터 형식으로 변환하는 함수
  * @param {Array} detailData - 상세 데이터 배열
  * @param {String} chartType - 차트 타입 ('bar' 또는 'line')
  * @returns {Object} Chart.js 형식의 데이터
  */
 export const formatChartData = (detailData, chartType) => {
+  const colorPalette = getFestivalColorPalette();
+  
   if (chartType === 'bar') {
     // 바 차트: 축제별 방문객 수
     const festivalGroups = detailData.reduce((acc, item) => {
@@ -177,18 +211,12 @@ export const formatChartData = (detailData, chartType) => {
       datasets: [{
         label: '평균 방문객 수 (명)',
         data: visitors,
-        backgroundColor: [
-          'rgba(169, 68, 66, 0.8)',
-          'rgba(70, 130, 180, 0.8)',
-          'rgba(60, 179, 113, 0.8)',
-          'rgba(255, 159, 64, 0.8)',
-        ],
-        borderColor: [
-          'rgba(169, 68, 66, 1)',
-          'rgba(70, 130, 180, 1)',
-          'rgba(60, 179, 113, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
+        backgroundColor: labels.map((_, index) => 
+          colorPalette.backgroundColor[index % colorPalette.backgroundColor.length]
+        ),
+        borderColor: labels.map((_, index) => 
+          colorPalette.borderColor[index % colorPalette.borderColor.length]
+        ),
         borderWidth: 1,
       }]
     };
@@ -207,18 +235,8 @@ export const formatChartData = (detailData, chartType) => {
       return {
         label: festival,
         data: yearlyData,
-        borderColor: [
-          'rgba(169, 68, 66, 1)',
-          'rgba(70, 130, 180, 1)',
-          'rgba(60, 179, 113, 1)',
-          'rgba(255, 159, 64, 1)',
-        ][index % 4],
-        backgroundColor: [
-          'rgba(169, 68, 66, 0.2)',
-          'rgba(70, 130, 180, 0.2)',
-          'rgba(60, 179, 113, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ][index % 4],
+        borderColor: colorPalette.borderColor[index % colorPalette.borderColor.length],
+        backgroundColor: colorPalette.backgroundColor[index % colorPalette.backgroundColor.length],
         tension: 0.1,
         fill: false, // 차트만과 동일하게 fill 비활성화
         // 포인트 설정 (Chart.js 기본값과 동일하게)
