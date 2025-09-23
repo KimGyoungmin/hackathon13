@@ -256,12 +256,32 @@
 
 .input-field:focus {
   outline: none;
-  border-color: #2d5016;
-  box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
+
+.input-field.input-error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.input-field.input-error:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
 
 .input-field::placeholder {
   color: #9ca3af;
+}
+
+/* 검증 오류 메시지 */
+.validation-error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-left: 4px;
+  font-weight: 500;
 }
 
 /* 버튼 행 */

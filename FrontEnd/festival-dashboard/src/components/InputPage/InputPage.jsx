@@ -35,13 +35,20 @@ const InputPage = () => {
   const [budgetType, setBudgetType] = useState('amount');
   const [promotionType, setPromotionType] = useState('amount');
   const [trafficType, setTrafficType] = useState('amount');
-  const [programsType, setProgramsType] = useState('amount');
 
   // 예측 결과 상태
   const [predictedVisitors, setPredictedVisitors] = useState(null);
   const [predictedRevenue, setPredictedRevenue] = useState(null);
   const [reasoning, setReasoning] = useState('');
   const [reportGenerated, setReportGenerated] = useState(false);
+
+  // 입력값 검증 상태
+  const [validationErrors, setValidationErrors] = useState({
+    budget: '',
+    promotion: '',
+    traffic: '',
+    programs: ''
+  });
 
   // 카테고리 목록 로드
   useEffect(() => {
@@ -166,6 +173,70 @@ const InputPage = () => {
     loadSelectedData();
   }, [selectedFestival, selectedYear]);
 
+  // 입력값 검증 함수
+  const validateInput = (field, value) => {
+    const numValue = parseFloat(value);
+    
+    switch (field) {
+      case 'budget':
+        if (value === '') return '';
+        if (isNaN(numValue)) return '숫자만 입력 가능합니다.';
+        if (numValue < 0) return '0 이상의 값을 입력해주세요.';
+        if (numValue > 999999) return '999,999 이하의 값을 입력해주세요.';
+        return '';
+      
+      case 'promotion':
+        if (value === '') return '';
+        if (isNaN(numValue)) return '숫자만 입력 가능합니다.';
+        if (numValue < 0) return '0 이상의 값을 입력해주세요.';
+        if (numValue > 100) return '100 이하의 값을 입력해주세요.';
+        return '';
+      
+      case 'traffic':
+        if (value === '') return '';
+        if (isNaN(numValue)) return '숫자만 입력 가능합니다.';
+        if (numValue < 0) return '0 이상의 값을 입력해주세요.';
+        if (numValue > 100) return '100 이하의 값을 입력해주세요.';
+        return '';
+      
+      case 'programs':
+        if (value === '') return '';
+        if (isNaN(numValue)) return '숫자만 입력 가능합니다.';
+        if (numValue < 0) return '0 이상의 값을 입력해주세요.';
+        if (numValue > 999) return '999 이하의 값을 입력해주세요.';
+        if (!Number.isInteger(numValue)) return '정수만 입력 가능합니다.';
+        return '';
+      
+      default:
+        return '';
+    }
+  };
+
+  // 입력값 변경 핸들러
+  const handleInputChange = (field, value) => {
+    const error = validateInput(field, value);
+    setValidationErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
+
+    // 상태 업데이트
+    switch (field) {
+      case 'budget':
+        setExpectedBudget(value);
+        break;
+      case 'promotion':
+        setExpectedPromotion(value);
+        break;
+      case 'traffic':
+        setExpectedTraffic(value);
+        break;
+      case 'programs':
+        setExpectedPrograms(value);
+        break;
+    }
+  };
+
   // 필터 초기화
   const handleResetFilter = () => {
     setSelectedCategory('');
@@ -177,10 +248,23 @@ const InputPage = () => {
     setReasoning('');
     setReportGenerated(false);
     setError(null);
+    setValidationErrors({
+      budget: '',
+      promotion: '',
+      traffic: '',
+      programs: ''
+    });
   };
 
   // 예측 생성
   const handlePredict = async () => {
+    // 입력값 검증 확인
+    const hasValidationErrors = Object.values(validationErrors).some(error => error !== '');
+    if (hasValidationErrors) {
+      alert('입력값을 올바르게 수정해주세요.');
+      return;
+    }
+
     if (!selectedData || !expectedBudget || !expectedPromotion || !expectedTraffic || !expectedPrograms) {
       alert('모든 시뮬레이션 값을 입력해주세요.');
       return;
@@ -334,7 +418,7 @@ const InputPage = () => {
           {/* 시뮬레이션 입력 */}
           <div className="simulation-inputs">
             <div className="input-group">
-              <label>예상 투입예산 <span className="required-badge">필수</span></label>
+              <label>예상 투입예산</label>
               <div className="radio-group">
                 <label>
                   <input
@@ -360,14 +444,22 @@ const InputPage = () => {
               <input
                 type="number"
                 value={expectedBudget}
-                onChange={(e) => setExpectedBudget(e.target.value)}
+                onChange={(e) => handleInputChange('budget', e.target.value)}
                 placeholder="15000"
-                className="input-field"
+                className={`input-field ${validationErrors.budget ? 'input-error' : ''}`}
+                min="0"
+                max="999999"
+                step="1"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
+              {validationErrors.budget && (
+                <div className="validation-error">{validationErrors.budget}</div>
+              )}
             </div>
 
             <div className="input-group">
-              <label>예상 홍보량 <span className="optional-badge">선택</span></label>
+              <label>예상 홍보량</label>
               <div className="radio-group">
                 <label>
                   <input
@@ -393,14 +485,22 @@ const InputPage = () => {
               <input
                 type="number"
                 value={expectedPromotion}
-                onChange={(e) => setExpectedPromotion(e.target.value)}
+                onChange={(e) => handleInputChange('promotion', e.target.value)}
                 placeholder="30"
-                className="input-field"
+                className={`input-field ${validationErrors.promotion ? 'input-error' : ''}`}
+                min="0"
+                max="100"
+                step="1"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
+              {validationErrors.promotion && (
+                <div className="validation-error">{validationErrors.promotion}</div>
+              )}
             </div>
 
             <div className="input-group">
-              <label>예상 교통량 <span className="optional-badge">선택</span></label>
+              <label>예상 교통량</label>
               <div className="radio-group">
                 <label>
                   <input
@@ -426,43 +526,37 @@ const InputPage = () => {
               <input
                 type="number"
                 value={expectedTraffic}
-                onChange={(e) => setExpectedTraffic(e.target.value)}
+                onChange={(e) => handleInputChange('traffic', e.target.value)}
                 placeholder="47"
-                className="input-field"
+                className={`input-field ${validationErrors.traffic ? 'input-error' : ''}`}
+                min="0"
+                max="100"
+                step="1"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
+              {validationErrors.traffic && (
+                <div className="validation-error">{validationErrors.traffic}</div>
+              )}
             </div>
 
             <div className="input-group">
-              <label>예상 프로그램 수 <span className="optional-badge">선택</span></label>
-              <div className="radio-group">
-                <label>
-                  <input
-                    type="radio"
-                    name="programsType"
-                    value="amount"
-                    checked={programsType === 'amount'}
-                    onChange={(e) => setProgramsType(e.target.value)}
-                  />
-                  수치 (개)
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="programsType"
-                    value="percent"
-                    checked={programsType === 'percent'}
-                    onChange={(e) => setProgramsType(e.target.value)}
-                  />
-                  비율 (%)
-                </label>
-              </div>
+              <label>예상 프로그램 수 (개)</label>
               <input
                 type="number"
                 value={expectedPrograms}
-                onChange={(e) => setExpectedPrograms(e.target.value)}
+                onChange={(e) => handleInputChange('programs', e.target.value)}
                 placeholder="25"
-                className="input-field"
+                className={`input-field ${validationErrors.programs ? 'input-error' : ''}`}
+                min="0"
+                max="999"
+                step="1"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
+              {validationErrors.programs && (
+                <div className="validation-error">{validationErrors.programs}</div>
+              )}
             </div>
           </div>
 
