@@ -26,10 +26,10 @@ const InputPage = () => {
   const [error, setError] = useState(null);
 
   // 시뮬레이션 입력 상태
-  const [expectedBudget, setExpectedBudget] = useState('');
-  const [expectedPromotion, setExpectedPromotion] = useState('');
-  const [expectedTraffic, setExpectedTraffic] = useState('');
-  const [expectedPrograms, setExpectedPrograms] = useState('');
+  const [expectedBudget, setExpectedBudget] = useState('0');
+  const [expectedPromotion, setExpectedPromotion] = useState('0');
+  const [expectedTraffic, setExpectedTraffic] = useState('0');
+  const [expectedPrograms, setExpectedPrograms] = useState('0');
   
   // 입력 타입 상태 (수치/비율)
   const [budgetType, setBudgetType] = useState('amount');
@@ -146,7 +146,7 @@ const InputPage = () => {
             console.log('선택 데이터 API 응답:', data);
             if (data && data.length > 0) {
               console.log('첫 번째 데이터:', data[0]);
-              console.log('교통량 필드:', data[0].trafficCongestionIndex);
+              console.log('교통량 필드:', data[0].trafficCongestion);
               console.log('프로그램수 필드:', data[0].programCount);
               setSelectedData(data[0]); // 첫 번째 결과 사용
               setError(null);
@@ -248,6 +248,10 @@ const InputPage = () => {
     setReasoning('');
     setReportGenerated(false);
     setError(null);
+    setExpectedBudget('0');
+    setExpectedPromotion('0');
+    setExpectedTraffic('0');
+    setExpectedPrograms('0');
     setValidationErrors({
       budget: '',
       promotion: '',
@@ -387,7 +391,7 @@ const InputPage = () => {
             <div className="data-item">
               <div className="data-label">교통량</div>
               <div className="data-value">
-                {selectedData ? selectedData.trafficCongestionIndex : '-'}
+                {selectedData ? selectedData.trafficCongestion : '-'}
               </div>
             </div>
             <div className="data-item">
@@ -445,7 +449,7 @@ const InputPage = () => {
                 type="number"
                 value={expectedBudget}
                 onChange={(e) => handleInputChange('budget', e.target.value)}
-                placeholder="15000"
+                placeholder="0"
                 className={`input-field ${validationErrors.budget ? 'input-error' : ''}`}
                 min="0"
                 max="999999"
@@ -486,7 +490,7 @@ const InputPage = () => {
                 type="number"
                 value={expectedPromotion}
                 onChange={(e) => handleInputChange('promotion', e.target.value)}
-                placeholder="30"
+                placeholder="0"
                 className={`input-field ${validationErrors.promotion ? 'input-error' : ''}`}
                 min="0"
                 max="100"
@@ -527,7 +531,7 @@ const InputPage = () => {
                 type="number"
                 value={expectedTraffic}
                 onChange={(e) => handleInputChange('traffic', e.target.value)}
-                placeholder="47"
+                placeholder="0"
                 className={`input-field ${validationErrors.traffic ? 'input-error' : ''}`}
                 min="0"
                 max="100"
@@ -546,7 +550,7 @@ const InputPage = () => {
                 type="number"
                 value={expectedPrograms}
                 onChange={(e) => handleInputChange('programs', e.target.value)}
-                placeholder="25"
+                placeholder="0"
                 className={`input-field ${validationErrors.programs ? 'input-error' : ''}`}
                 min="0"
                 max="999"

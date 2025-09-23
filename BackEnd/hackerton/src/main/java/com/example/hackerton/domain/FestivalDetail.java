@@ -21,8 +21,8 @@ public class FestivalDetail {
     private Double avgTempC;                 // 평균기온
     private Double totalPrecipMm;            // 강수량
     private Double sunshineHours;            // 일조시간
-    private Double trafficCongestionIndex;  // 교통접근성지수
-    private Integer localPopulation;         // 지역인구수
+    private Double trafficCongestion;  // 교통접근성지수
+    private Integer field;         // 지역인구수
     private Double grdpPerCapitaMkrw;       // 지역_1인당GRDP
     private Integer programCount;            // 프로그램수
     private Double promoIntensityIndex;      // 홍보강도지수
