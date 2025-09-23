@@ -220,6 +220,11 @@ export const formatChartData = (detailData, chartType) => {
           'rgba(255, 159, 64, 0.2)',
         ][index % 4],
         tension: 0.1,
+        fill: false, // 차트만과 동일하게 fill 비활성화
+        // 포인트 설정 (Chart.js 기본값과 동일하게)
+        pointRadius: 4,
+        pointHoverRadius: 8,
+        pointHitRadius: 25
       };
     });
 

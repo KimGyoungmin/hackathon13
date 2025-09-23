@@ -11,7 +11,8 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 20px;
-  height: 100%;
+  height: calc(100vh - 140px); /* 헤더 높이와 패딩을 제외한 전체 화면 높이 */
+  min-height: 600px;
 }
 
 /* 개별 차트 카드 */
@@ -20,9 +21,11 @@
   border-radius: 12px;
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 8px var(--shadow);
-  padding: 20px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
+  height: 100%; /* 그리드 셀의 전체 높이 사용 */
+  overflow: hidden; /* 스크롤 방지 */
 }
 
 .chart-card:hover {
@@ -35,8 +38,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -57,7 +60,8 @@
 .chart-container {
   flex: 1;
   position: relative;
-  min-height: 250px;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-container canvas {
@@ -80,7 +84,7 @@
   }
 
   .chart-container {
-    min-height: 200px;
+    /* 최소 높이 제거하여 완전히 유연하게 */
   }
 }
 

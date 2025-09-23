@@ -152,7 +152,7 @@
 
 /* 오른쪽 사이드바 */
 .right-sidebar {
-  width: 300px;
+  width: 400px;
   background-color: var(--white);
   border-left: 1px solid var(--border-color);
   display: flex;

@@ -107,11 +107,23 @@
             f.festival_nm as festivalName,
             fd.total_visitors as totalVisitors,
             fd.avg_daily_visitors as avgDailyVisitors,
+            fd.duration_days as durationDays,
+            fd.weekend_days as weekendDays,
+            fd.lodging_days as lodgingDays,
+            fd.lodging_visitor_ratio as lodgingVisitorRatio,
+            fd.avg_spend_per_day_krw as avgSpendPerDayKrw,
+            fd.stay_days_weight as stayDaysWeight,
+            fd.avg_temp_c as avgTempC,
+            fd.total_precip_mm as totalPrecipMm,
+            fd.sunshine_hours as sunshineHours,
+            fd.traffic_congestion_index as trafficCongestionIndex,
+            fd.regional_pop_thousands as localPopulation,
+            fd.grdp_per_capita_mkrw as grdpPerCapitaMkrw,
+            fd.program_count as programCount,
+            fd.promo_intensity_index as promoIntensityIndex,
             fd.budget_krw as budgetKrw,
             fd.year as year,
-            fd.gross_sales as grossSales,
-            fd.promo_intensity_index as promoIntensityIndex,
-            fd.lodging_visitor_ratio as lodgingVisitorRatio
+            fd.gross_sales as grossSales
         FROM festival f
         LEFT JOIN festival_detail fd ON f.festival_id = fd.festival_id
         WHERE 1=1

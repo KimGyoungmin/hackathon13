@@ -27,16 +27,22 @@ const KakaoMap = ({
     const initializeMap = () => {
       // 카카오맵 API가 로드되고 초기화되었는지 확인
       if (!window.kakao || !window.kakao.maps || !window.kakaoMapLoaded) {
-        console.log('카카오맵 API 초기화 대기 중...');
-        // 200ms 후 다시 시도
-        setTimeout(initializeMap, 200);
+        console.log('카카오맵 API 초기화 대기 중...', {
+          kakao: !!window.kakao,
+          maps: !!(window.kakao && window.kakao.maps),
+          loaded: window.kakaoMapLoaded
+        });
+        // 500ms 후 다시 시도
+        setTimeout(initializeMap, 500);
         return;
       }
 
       // 카카오맵 API 완전 초기화 확인
       if (!window.kakao.maps.LatLng || typeof window.kakao.maps.LatLng !== 'function') {
-        console.log('카카오맵 API 객체 초기화 대기 중...');
-        setTimeout(initializeMap, 200);
+        console.log('카카오맵 API 객체 초기화 대기 중...', {
+          LatLng: !!(window.kakao && window.kakao.maps && window.kakao.maps.LatLng)
+        });
+        setTimeout(initializeMap, 500);
         return;
       }
 
@@ -101,11 +107,21 @@ const KakaoMap = ({
       }
     };
 
-    // 지도 초기화 시작
+    // 카카오맵 준비 이벤트 리스너 추가
+    const handleKakaoMapReady = () => {
+      console.log('카카오맵 준비 이벤트 수신');
+      initializeMap();
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener('kakaoMapReady', handleKakaoMapReady);
+
+    // 지도 초기화 시작 (이미 로드된 경우를 위해)
     initializeMap();
 
     // 컴포넌트 언마운트 시 정리
     return () => {
+      window.removeEventListener('kakaoMapReady', handleKakaoMapReady);
       if (mapInstanceRef.current) {
         mapInstanceRef.current = null;
       }
