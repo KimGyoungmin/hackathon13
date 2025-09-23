@@ -86,6 +86,29 @@
   cursor: not-allowed;
 }
 
+.reset-btn {
+  padding: 10px 20px;
+  background-color: var(--white);
+  color: var(--text);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-btn:hover:not(:disabled) {
+  background-color: var(--light-gray);
+  border-color: var(--primary);
+}
+
+.reset-btn:disabled {
+  background-color: var(--light-gray);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
 /* 에러 메시지 */
 .error-message {
   background-color: rgba(239, 68, 68, 0.1);

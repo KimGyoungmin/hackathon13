@@ -104,6 +104,20 @@ const InputPage = () => {
     }
   };
 
+  // 필터 초기화 핸들러
+  const handleFilterReset = () => {
+    setSelectedFestival('');
+    setSelectedYear('');
+    setYears([]);
+    setFestivalData(null);
+    setBudgetValue('');
+    setPromoValue('');
+    setVisitorsValue('');
+    setPredictedVisitors(null);
+    setPredictedSales(null);
+    setError(null);
+  };
+
   // 시뮬레이션 실행
   const handleSimulation = () => {
     if (!festivalData || !budgetValue || !promoValue || !visitorsValue) {
@@ -194,6 +208,14 @@ const InputPage = () => {
           >
             {loading ? '조회 중...' : '데이터 조회'}
           </button>
+
+          <button
+            className="reset-btn"
+            onClick={handleFilterReset}
+            disabled={loading}
+          >
+            필터 초기화
+          </button>
         </div>
       </div>
 
@@ -213,14 +235,14 @@ const InputPage = () => {
           <div className="data-item">
             <div className="data-label">예산 (백만원)</div>
             <div className="data-value">
-              {festivalData ? Math.round((festivalData.budgetKrw || festivalData.budget_krw || 0) / 1000000).toLocaleString() : '15,000'}
+              {festivalData ? Math.round((festivalData.budgetKrw || festivalData.budget_krw || 0) / 1000000).toLocaleString() : '0'}
             </div>
           </div>
 
           <div className="data-item">
             <div className="data-label">홍보 강도</div>
             <div className="data-value">
-              {festivalData ? (festivalData.promoIntensityIndex || festivalData.promo_intensity_index || 0) : '0.2'}
+              {festivalData ? (festivalData.promoIntensityIndex || festivalData.promo_intensity_index || 0) : '0'}
             </div>
           </div>
 
@@ -235,14 +257,14 @@ const InputPage = () => {
           <div className="data-item highlighted">
             <div className="data-label">방문객 수 (명)</div>
             <div className="data-value">
-              {festivalData ? (festivalData.totalVisitors || festivalData.total_visitors || 0).toLocaleString() : '15,000'}
+              {festivalData ? (festivalData.totalVisitors || festivalData.total_visitors || 0).toLocaleString() : '0'}
             </div>
           </div>
 
           <div className="data-item highlighted">
             <div className="data-label">매출액 (백만원)</div>
             <div className="data-value">
-              {festivalData ? Math.round((festivalData.grossSales || festivalData.gross_sales || 0) / 1000000).toLocaleString() : '500'}
+              {festivalData ? Math.round((festivalData.grossSales || festivalData.gross_sales || 0) / 1000000).toLocaleString() : '0'}
             </div>
           </div>
         </div>

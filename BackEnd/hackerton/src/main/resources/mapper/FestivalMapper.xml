@@ -92,7 +92,7 @@
                 #{festivalName}
             </foreach>
         </if>
-        <if test="years != null and years.size() > 0">
+        <if test="years != null and years.size() > 0">ww
             AND fd.year IN
             <foreach collection="years" item="year" open="(" separator="," close=")">
                 #{year}
